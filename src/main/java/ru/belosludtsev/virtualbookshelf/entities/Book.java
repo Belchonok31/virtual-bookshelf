@@ -1,5 +1,6 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "shelf_id", referencedColumnName = "id")
+    @JsonBackReference
     private Shelf shelf;
 
     @OneToMany(mappedBy = "book")

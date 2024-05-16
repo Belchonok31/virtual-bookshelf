@@ -2,9 +2,7 @@ package ru.belosludtsev.virtualbookshelf.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.entities.User;
-import ru.belosludtsev.virtualbookshelf.services.BookServices;
 import ru.belosludtsev.virtualbookshelf.services.UserServices;
 
 import java.util.List;

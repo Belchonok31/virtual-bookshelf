@@ -1,5 +1,6 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class Shelf {
     private String description;
 
     @OneToMany(mappedBy = "shelf")
+    @JsonManagedReference
     private List<Book> books;
 
     @ManyToOne
