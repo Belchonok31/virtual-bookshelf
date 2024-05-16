@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@Table(name="user_")
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
