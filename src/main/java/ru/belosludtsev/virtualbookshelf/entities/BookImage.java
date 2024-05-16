@@ -19,6 +19,6 @@ public class BookImage {
     private long id;
 
     @OneToOne
-    @JoinColumn(name="book_image_id", referencedColumnName = "id")
-    private BookImage bookImage;
+    @JoinColumn(name="book_id", referencedColumnName = "id")
+    private Book book;
 }
