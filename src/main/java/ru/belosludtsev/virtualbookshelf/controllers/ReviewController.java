@@ -20,22 +20,22 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public Review show(@PathVariable("id") long id){
+    public Review show(@PathVariable("id") long id) {
         return reviewServices.findOne(id);
     }
 
     @PostMapping
-    public void save(Review review){
+    public void save(@RequestBody Review review) {
         reviewServices.save(review);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  Review reviewUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody Review reviewUpdate) {
         reviewServices.update(id, reviewUpdate);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id){
+    public void delete(@PathVariable("id") long id) {
         reviewServices.delete(id);
     }
 }

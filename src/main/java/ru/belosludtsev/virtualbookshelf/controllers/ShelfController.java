@@ -20,22 +20,22 @@ public class ShelfController {
     }
 
     @GetMapping("/{id}")
-    public Shelf show(@PathVariable("id") long id){
+    public Shelf show(@PathVariable("id") long id) {
         return shelfServices.findOne(id);
     }
 
     @PostMapping
-    public void save(Shelf shelf){
+    public void save(@RequestBody Shelf shelf) {
         shelfServices.save(shelf);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  Shelf shelfUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
         shelfServices.update(id, shelfUpdate);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id){
+    public void delete(@PathVariable("id") long id) {
         shelfServices.delete(id);
     }
 }

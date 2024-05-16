@@ -25,12 +25,12 @@ public class BookController {
     }
 
     @PostMapping
-    public void save(Book book){
+    public void save(@RequestBody Book book){
         bookServices.save(book);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  Book bookUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody Book bookUpdate){
         bookServices.update(id, bookUpdate);
     }
 

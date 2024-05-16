@@ -25,12 +25,12 @@ public class RatingController {
     }
 
     @PostMapping
-    public void save(Rating rating){
+    public void save(@RequestBody Rating rating){
         ratingServices.save(rating);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  Rating ratingUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody Rating ratingUpdate){
         ratingServices.update(id, ratingUpdate);
     }
 

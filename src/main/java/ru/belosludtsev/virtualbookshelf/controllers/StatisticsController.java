@@ -20,22 +20,22 @@ public class StatisticsController {
     }
 
     @GetMapping("/{id}")
-    public Statistics show(@PathVariable("id") long id){
+    public Statistics show(@PathVariable("id") long id) {
         return statisticsServices.findOne(id);
     }
 
     @PostMapping
-    public void save(Statistics statistics){
+    public void save(@RequestBody Statistics statistics) {
         statisticsServices.save(statistics);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  Statistics statisticsUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody Statistics statisticsUpdate) {
         statisticsServices.update(id, statisticsUpdate);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id){
+    public void delete(@PathVariable("id") long id) {
         statisticsServices.delete(id);
     }
 }

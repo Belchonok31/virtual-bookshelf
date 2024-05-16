@@ -22,22 +22,22 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User show(@PathVariable("id") long id){
+    public User show(@PathVariable("id") long id) {
         return userServices.findOne(id);
     }
 
     @PostMapping
-    public void save(User user){
+    public void save(@RequestBody User user) {
         userServices.save(user);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id,  User userUpdate){
+    public void update(@PathVariable("id") long id, @RequestBody User userUpdate) {
         userServices.update(id, userUpdate);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id){
+    public void delete(@PathVariable("id") long id) {
         userServices.delete(id);
     }
 }
