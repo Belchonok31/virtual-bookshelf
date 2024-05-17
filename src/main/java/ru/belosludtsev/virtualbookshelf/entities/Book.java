@@ -1,9 +1,12 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,23 +33,24 @@ public class Book {
 
     private String description;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="book_image_id", referencedColumnName = "id")
+    @JsonManagedReference
+    private BookImage bookImage;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "statistics_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Statistics statistics;
 
     @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id")
+    @JoinColumn(name="user_id")
+    @JsonBackReference
     private User owner;
 
-    @OneToOne
-    @JoinColumn(name="book_image_id", referencedColumnName = "id")
-    private BookImage bookImage;
-
     @ManyToOne
-    @JoinColumn(name = "shelf_id", referencedColumnName = "id")
+    @JoinColumn(name = "shelf_id")
     @JsonBackReference
     private Shelf shelf;
 
-    @OneToMany(mappedBy = "book")
-    private List<Review> reviews;
 }

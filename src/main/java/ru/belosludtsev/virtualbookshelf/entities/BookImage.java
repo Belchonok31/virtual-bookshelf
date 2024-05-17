@@ -1,5 +1,6 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class BookImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
-    @JoinColumn(name="book_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "bookImage")
+    @JsonBackReference
     private Book book;
 }

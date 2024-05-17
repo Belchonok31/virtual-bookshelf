@@ -1,5 +1,6 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +23,22 @@ public class Review {
 
     private String text;
 
+    private int rating;
+
     private LocalDateTime dateOfWriting;
 
-    @OneToOne
-    @JoinColumn(name = "rating_id", referencedColumnName = "id")
-    private Rating rating;
-
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "book_id")
+    @JsonBackReference
     private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "statistics_id")
+    @JsonBackReference
+    private Statistics statistics;
 }

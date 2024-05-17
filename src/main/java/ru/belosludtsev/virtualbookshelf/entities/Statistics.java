@@ -1,5 +1,7 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,10 +24,13 @@ public class Statistics {
 
     private int additions;
 
-    @OneToOne
-    private Rating rating;
+    private int rating;
 
-    @OneToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book books;
+    @OneToOne(mappedBy = "statistics")
+    @JsonBackReference
+    private Book book;
+
+    @OneToMany(mappedBy = "statistics", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Review> reviews;
 }
