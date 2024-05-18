@@ -1,4 +1,4 @@
-package ru.belosludtsev.virtualbookshelf.controllers.admin;
+package ru.belosludtsev.virtualbookshelf.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

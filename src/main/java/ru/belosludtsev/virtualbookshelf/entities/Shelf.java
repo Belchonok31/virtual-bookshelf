@@ -1,17 +1,15 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Entity
-@Table(name="shelf")
+@Table(name = "shelf")
 @Data
 @Builder
 @RequiredArgsConstructor
@@ -26,12 +24,14 @@ public class Shelf {
 
     private String description;
 
-    @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Book> books;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnore
     private User user;
+
+    @JsonProperty("user_id")
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
+    }
+
 }

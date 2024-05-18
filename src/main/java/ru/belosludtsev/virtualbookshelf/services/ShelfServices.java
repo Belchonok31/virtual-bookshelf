@@ -4,9 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.Shelf;
+import ru.belosludtsev.virtualbookshelf.entities.User;
 import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
+import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,33 +18,16 @@ public class ShelfServices {
 
     private final ShelfRepositories shelfRepositories;
 
-    public List<Shelf> findAll(long clientId) {
-        return shelfRepositories.findAll();
-    }
+    private final UserRepositories userRepositories;
 
-    public Shelf findOne(long clientId, long id) {
-        return shelfRepositories.findById(id).orElse(null);
-    }
-
-    @Transactional
-    public void save(long clientId, Shelf shelf) {
-        shelfRepositories.save(shelf);
-    }
-
-    @Transactional
-    public void update(long clientId, long id, Shelf shelfUpdate) {
-        shelfUpdate.setId(id);
-        shelfRepositories.save(shelfUpdate);
-    }
-
-    @Transactional
-    public void delete(long clientId, long id) {
-        shelfRepositories.deleteById(id);
-    }
-
-    //admin methods------------------------------------------
     public List<Shelf> findAll() {
         return shelfRepositories.findAll();
+    }
+
+    public List<Shelf> findAll(long clientId) {
+        return shelfRepositories.findAll()
+                .stream().filter(shelf -> shelf.getUser().getId() == clientId)
+                .collect(Collectors.toList());
     }
 
     public Shelf findOne(long id) {
@@ -49,6 +36,13 @@ public class ShelfServices {
 
     @Transactional
     public void save(Shelf shelf) {
+        shelfRepositories.save(shelf);
+    }
+
+    @Transactional
+    public void save(long clientId, Shelf shelf) {
+        Optional<User> userOptional = userRepositories.findById(clientId);
+        userOptional.ifPresent(shelf::setUser);
         shelfRepositories.save(shelf);
     }
 

@@ -1,4 +1,4 @@
-package ru.belosludtsev.virtualbookshelf.controllers.client;
+package ru.belosludtsev.virtualbookshelf.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/client/{clientId}/shelf")
 @RequiredArgsConstructor
-public class ClientShelfController {
+public class ShelfController {
 
     private final ShelfServices shelfServices;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Shelf>> getFullAllShelf(){
+        List<Shelf> shelves = shelfServices.findAll();
+        return ResponseEntity.ok(shelves);
+    }
 
     @GetMapping
     public ResponseEntity<List<Shelf>> getAllShelf(@PathVariable("clientId") long clientId) {
@@ -23,8 +29,8 @@ public class ClientShelfController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Shelf> getShelfById(@PathVariable("clientId") long clientId, @PathVariable("id") long id) {
-        Shelf shelf = shelfServices.findOne(clientId, id);
+    public ResponseEntity<Shelf> getShelfById(@PathVariable("id") long id) {
+        Shelf shelf = shelfServices.findOne(id);
         if (shelf != null) {
             return ResponseEntity.ok(shelf);
         } else return ResponseEntity.notFound().build();
@@ -38,18 +44,17 @@ public class ClientShelfController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateShelf(@PathVariable("clientId") long clientId,
-                                              @PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
+    public ResponseEntity<String> updateShelf(@PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
         if (shelfServices.findOne(id) != null) {
-            shelfServices.update(clientId, id, shelfUpdate);
+            shelfServices.update(id, shelfUpdate);
             return ResponseEntity.ok("Shelf updated successfully");
         } else return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteShelf(@PathVariable("clientId") long clientId, @PathVariable("id") long id) {
+    public ResponseEntity<String> deleteShelf(@PathVariable("id") long id) {
         if (shelfServices.findOne(id) != null) {
-            shelfServices.delete(clientId, id);
+            shelfServices.delete(id);
             return ResponseEntity.ok("Shelf deleted successfully");
         } else return ResponseEntity.notFound().build();
     }

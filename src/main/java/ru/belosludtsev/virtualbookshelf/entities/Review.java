@@ -1,6 +1,5 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,16 +28,13 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    @JsonBackReference
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "statistics_id")
-    @JsonBackReference
     private Statistics statistics;
 }
