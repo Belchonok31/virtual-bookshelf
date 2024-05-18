@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.User;
+import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
 public class UserServices {
 
     private final UserRepositories userRepositories;
+
+    private final ShelfServices shelfServices;
 
     public List<User> findAll(){
         return userRepositories.findAll();
@@ -35,6 +38,7 @@ public class UserServices {
 
     @Transactional
     public void delete(long id){
+        shelfServices.deleteAllByClientId(id);
         userRepositories.deleteById(id);
     }
 }

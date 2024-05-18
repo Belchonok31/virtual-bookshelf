@@ -56,4 +56,11 @@ public class ShelfServices {
     public void delete(long id) {
         shelfRepositories.deleteById(id);
     }
+
+    @Transactional
+    public void deleteAllByClientId(long clientId) {
+        shelfRepositories.findAll().stream()
+                .filter(shelf -> shelf.getUser().getId() == clientId)
+                .forEach(shelfRepositories::delete);
+    }
 }
