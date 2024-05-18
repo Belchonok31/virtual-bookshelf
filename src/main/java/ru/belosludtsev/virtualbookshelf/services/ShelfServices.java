@@ -20,6 +20,8 @@ public class ShelfServices {
 
     private final UserRepositories userRepositories;
 
+    private final BookServices bookServices;
+
     public List<Shelf> findAll() {
         return shelfRepositories.findAll();
     }
@@ -35,12 +37,8 @@ public class ShelfServices {
     }
 
     @Transactional
-    public void save(Shelf shelf) {
-        shelfRepositories.save(shelf);
-    }
-
-    @Transactional
     public void save(long clientId, Shelf shelf) {
+        // todo add check valid clientId
         Optional<User> userOptional = userRepositories.findById(clientId);
         userOptional.ifPresent(shelf::setUser);
         shelfRepositories.save(shelf);
@@ -54,11 +52,12 @@ public class ShelfServices {
 
     @Transactional
     public void delete(long id) {
+        bookServices.deleteAllBookByShelfId(id);
         shelfRepositories.deleteById(id);
     }
 
     @Transactional
-    public void deleteAllByClientId(long clientId) {
+    public void deleteAllShelfByClientId(long clientId) {
         shelfRepositories.findAll().stream()
                 .filter(shelf -> shelf.getUser().getId() == clientId)
                 .forEach(shelfRepositories::delete);

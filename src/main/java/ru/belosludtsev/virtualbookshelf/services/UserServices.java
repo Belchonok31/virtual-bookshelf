@@ -38,7 +38,7 @@ public class UserServices {
 
     @Transactional
     public void delete(long id){
-        shelfServices.deleteAllByClientId(id);
+        shelfServices.deleteAllShelfByClientId(id);
         userRepositories.deleteById(id);
     }
 }

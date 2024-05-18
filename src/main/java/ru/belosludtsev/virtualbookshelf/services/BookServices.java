@@ -1,15 +1,16 @@
 package ru.belosludtsev.virtualbookshelf.services;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
-import ru.belosludtsev.virtualbookshelf.entities.BookImage;
-import ru.belosludtsev.virtualbookshelf.repositories.BookImageRepositories;
+import ru.belosludtsev.virtualbookshelf.entities.Shelf;
 import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
+import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +18,16 @@ public class BookServices {
 
     private final BookRepositories bookRepositories;
 
+    private final ShelfRepositories shelfRepositories;
+
     public List<Book> findAll() {
         return bookRepositories.findAll();
+    }
+
+    public List<Book> findAll(long shelfId) {
+        return bookRepositories.findAll().stream()
+                .filter(book -> book.getShelf().getId() == shelfId)
+                .collect(Collectors.toList());
     }
 
     public Book findOne(long id) {
@@ -26,7 +35,11 @@ public class BookServices {
     }
 
     @Transactional
-    public void save(Book book) {
+    public void save(long shelfId, Book book) {
+        // todo add check valid clientId
+        Optional<Shelf> optionalShelf = shelfRepositories.findById(shelfId);
+        optionalShelf.ifPresent(book::setShelf);
+        book.setISBN(generateISBN(book.getName(), book.getAuthors()));
         bookRepositories.save(book);
     }
 
@@ -39,6 +52,18 @@ public class BookServices {
     @Transactional
     public void delete(long id) {
         bookRepositories.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllBookByShelfId(long shelfId) {
+        bookRepositories.findAll().stream()
+                .filter(book -> book.getShelf().getId() ==  shelfId)
+                .forEach(bookRepositories::delete);
+    }
+
+    private String generateISBN(String name, String authors) {
+        return "ISBN-" + name.substring(0, Math.min(name.length(), 3)).toUpperCase() +
+                authors.substring(0, Math.min(authors.length(), 3)).toUpperCase();
     }
 
 }
