@@ -19,14 +19,14 @@ public class BookController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Book>> getAllBook(){
-        List<Book> shelves = bookServices.findAll();
-        return ResponseEntity.ok(shelves);
+        List<Book> books = bookServices.findAll();
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping
     public ResponseEntity<List<Book>> getAllBook(@PathVariable("shelfId") long shelfId) {
-        List<Book> shelves = bookServices.findAll(shelfId);
-        return ResponseEntity.ok(shelves);
+        List<Book> books = bookServices.findAll(shelfId);
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")

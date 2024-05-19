@@ -17,7 +17,7 @@ public class ShelfController {
     private final ShelfServices shelfServices;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Shelf>> getFullAllShelf(){
+    public ResponseEntity<List<Shelf>> getAllShelf(){
         List<Shelf> shelves = shelfServices.findAll();
         return ResponseEntity.ok(shelves);
     }

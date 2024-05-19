@@ -20,6 +20,8 @@ public class BookServices {
 
     private final ShelfRepositories shelfRepositories;
 
+    private final BookImageServices bookImageServices;
+
     public List<Book> findAll() {
         return bookRepositories.findAll();
     }
@@ -36,7 +38,7 @@ public class BookServices {
 
     @Transactional
     public void save(long shelfId, Book book) {
-        // todo add check valid clientId
+        // todo add check valid shelfId
         Optional<Shelf> optionalShelf = shelfRepositories.findById(shelfId);
         optionalShelf.ifPresent(book::setShelf);
         book.setISBN(generateISBN(book.getName(), book.getAuthors()));
@@ -51,6 +53,7 @@ public class BookServices {
 
     @Transactional
     public void delete(long id) {
+        bookImageServices.deleteAllBookImageByBookId(id);
         bookRepositories.deleteById(id);
     }
 
@@ -58,7 +61,8 @@ public class BookServices {
     public void deleteAllBookByShelfId(long shelfId) {
         bookRepositories.findAll().stream()
                 .filter(book -> book.getShelf().getId() ==  shelfId)
-                .forEach(bookRepositories::delete);
+                .map(Book::getId)
+                .forEach(this::delete);
     }
 
     private String generateISBN(String name, String authors) {
