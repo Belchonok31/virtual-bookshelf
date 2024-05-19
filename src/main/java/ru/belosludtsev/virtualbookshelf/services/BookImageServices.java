@@ -36,6 +36,7 @@ public class BookImageServices {
 
     @Transactional
     public void save(long bookId, BookImage bookImage) {
+        // todo add check valid bookId
         Optional<Book> optionalBook = bookRepositories.findById(bookId);
         optionalBook.ifPresent(bookImage::setBook);
         bookImageRepositories.save(bookImage);
