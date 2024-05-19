@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.User;
 import ru.belosludtsev.virtualbookshelf.services.UserServices;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController

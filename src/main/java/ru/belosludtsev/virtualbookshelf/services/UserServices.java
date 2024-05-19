@@ -7,6 +7,7 @@ import ru.belosludtsev.virtualbookshelf.entities.User;
 import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -37,7 +38,7 @@ public class UserServices {
     }
 
     @Transactional
-    public void delete(long id){
+    public void delete(long id) {
         shelfServices.deleteAllShelfByClientId(id);
         userRepositories.deleteById(id);
     }

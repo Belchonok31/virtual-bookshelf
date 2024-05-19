@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.Shelf;
 import ru.belosludtsev.virtualbookshelf.services.ShelfServices;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController

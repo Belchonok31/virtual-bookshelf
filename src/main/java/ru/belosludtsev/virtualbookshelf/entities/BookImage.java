@@ -1,5 +1,7 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +26,12 @@ public class BookImage {
 
     @OneToOne
     @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book book;
+
+    @JsonProperty("book_id")
+    public Long getBookId() {
+        return book != null ? book.getId() : null;
+    }
 
 }

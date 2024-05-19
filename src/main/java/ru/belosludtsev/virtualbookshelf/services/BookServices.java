@@ -60,7 +60,7 @@ public class BookServices {
     @Transactional
     public void deleteAllBookByShelfId(long shelfId) {
         bookRepositories.findAll().stream()
-                .filter(book -> book.getShelf().getId() ==  shelfId)
+                .filter(book -> book.getShelf().getId() == shelfId)
                 .map(Book::getId)
                 .forEach(this::delete);
     }

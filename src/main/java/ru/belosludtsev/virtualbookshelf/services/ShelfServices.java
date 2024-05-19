@@ -8,6 +8,7 @@ import ru.belosludtsev.virtualbookshelf.entities.User;
 import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,13 +52,13 @@ public class ShelfServices {
     }
 
     @Transactional
-    public void delete(long id) {
+    public void delete(long id){
         bookServices.deleteAllBookByShelfId(id);
         shelfRepositories.deleteById(id);
     }
 
     @Transactional
-    public void deleteAllShelfByClientId(long clientId) {
+    public void deleteAllShelfByClientId(long clientId){
         shelfRepositories.findAll().stream()
                 .filter(shelf -> shelf.getUser().getId() == clientId)
                 .map(Shelf::getId)

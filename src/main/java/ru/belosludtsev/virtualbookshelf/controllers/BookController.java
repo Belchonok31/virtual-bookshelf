@@ -8,6 +8,7 @@ import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.entities.Shelf;
 import ru.belosludtsev.virtualbookshelf.services.BookServices;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController

@@ -1,14 +1,21 @@
 package ru.belosludtsev.virtualbookshelf.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.entities.BookImage;
 import ru.belosludtsev.virtualbookshelf.services.BookImageServices;
 import ru.belosludtsev.virtualbookshelf.services.BookServices;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -24,31 +31,34 @@ public class BookImageController {
         return ResponseEntity.ok(bookImages);
     }
 
-    @GetMapping
-    public ResponseEntity<List<BookImage>> getAllBookImage(@PathVariable("bookId") long bookId) {
-        List<BookImage> bookImages = bookImageServices.findAll(bookId);
-        return ResponseEntity.ok(bookImages);
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<BookImage> getBookImageById(@PathVariable("id") long id) {
+    public ResponseEntity<byte[]> getBookImageById(@PathVariable("id") long id) throws IOException {
         BookImage bookImage = bookImageServices.findOne(id);
         if (bookImage != null) {
-            return ResponseEntity.ok(bookImage);
+            Path filePath = Paths.get(bookImage.getUrl());
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(getMediaTypeFromFileName(bookImage.getName()));
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
         } else return ResponseEntity.notFound().build();
+    }
+    private MediaType getMediaTypeFromFileName(String fileName) throws IOException {
+        String contentType = "application/octet-stream";
+        contentType = Files.probeContentType(Paths.get(fileName));
+        return MediaType.parseMediaType(contentType);
     }
 
     @PostMapping
-    public ResponseEntity<String> createBookImage(@PathVariable("bookId") long bookId, @RequestBody BookImage bookImage) {
-        bookImageServices.save(bookId, bookImage);
+    public ResponseEntity<String> createBookImage(@PathVariable("bookId") long bookId, @RequestPart MultipartFile file) throws IOException {
+        bookImageServices.save(bookId, file);
 //        return ResponseEntity.ok("Shelf created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestBody BookImage bookImageUpdate) {
+    public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestPart MultipartFile fileUpdate) throws IOException {
         if (bookImageServices.findOne(id) != null) {
-            bookImageServices.update(id, bookImageUpdate);
+            bookImageServices.update(id, fileUpdate);
             return ResponseEntity.ok("Shelf updated successfully");
         } else return ResponseEntity.notFound().build();
     }
