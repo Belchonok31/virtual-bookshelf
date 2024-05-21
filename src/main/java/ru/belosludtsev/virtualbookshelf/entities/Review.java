@@ -47,14 +47,4 @@ public class Review {
     public Long getBookId() {
         return book != null ? book.getId() : null;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "statistics_id")
-    @JsonIgnore
-    private Statistics statistics;
-
-    @JsonProperty("statistics_id")
-    public Long getStatisticsId() {
-        return statistics != null ? statistics.getId() : null;
-    }
 }

@@ -26,6 +26,8 @@ public class BookServices {
 
     private final BookImageServices bookImageServices;
 
+    private final ReviewServices reviewServices;
+
     public List<Book> findAll() {
         return bookRepositories.findAll();
     }
@@ -68,6 +70,7 @@ public class BookServices {
     @Transactional
     public void delete(long id) {
         bookImageServices.deleteAllBookImageByBookId(id);
+        reviewServices.deleteAllReviewsByBookId(id);
         bookRepositories.deleteById(id);
     }
 
