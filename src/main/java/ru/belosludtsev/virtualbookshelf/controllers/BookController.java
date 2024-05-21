@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.services.BookServices;
+import ru.belosludtsev.virtualbookshelf.services.StatisticsServices;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class BookController {
 
     private final BookServices bookServices;
+
+    private final StatisticsServices statisticsServices;
 
     @GetMapping("/all")
     public ResponseEntity<List<Book>> getAllBook() {
@@ -37,16 +40,19 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createBook(@PathVariable("shelfId") long shelfId, @RequestBody Book book) {
-        bookServices.save(shelfId, book);
+    public ResponseEntity<String> createBook(@PathVariable("shelfId") long shelfId,
+                                             long bookOriginalId, @RequestBody Book book) {
+        bookServices.save(shelfId, bookOriginalId, book);
+        statisticsServices.updateAdditions(bookOriginalId);
 //        return ResponseEntity.ok("BookImage created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestBody Book bookUpdate) {
+    public ResponseEntity<String> updateBook(@PathVariable("id") long id,
+                                             long bookOriginalId, @RequestBody Book bookUpdate) {
         if (bookServices.findOne(id) != null) {
-            bookServices.update(id, bookUpdate);
+            bookServices.update(id, bookOriginalId, bookUpdate);
             return ResponseEntity.ok("Book updated successfully");
         } else return ResponseEntity.notFound().build();
     }

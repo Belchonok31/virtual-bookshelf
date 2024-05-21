@@ -22,7 +22,9 @@ public class Statistics {
 
     private int additions;
 
-    private int rating;
+    private int numberOfReviews;
+
+    private float rating;
 
     @OneToOne
     @JoinColumn(name = "book_original_id")
@@ -30,7 +32,7 @@ public class Statistics {
     private BookOriginal bookOriginal;
 
     @JsonProperty("book_id")
-    public Long getBookId() {
+    public Long getBookOriginalId() {
         return bookOriginal != null ? bookOriginal.getId() : null;
     }
 }

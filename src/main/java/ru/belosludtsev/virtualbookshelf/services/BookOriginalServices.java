@@ -14,6 +14,10 @@ public class BookOriginalServices {
 
     private final BookOriginalRepositories bookOriginalRepositories;
 
+    private final StatisticsServices statisticsServices;
+
+    private final BookServices bookServices;
+
     public List<BookOriginal> findAll() {
         return bookOriginalRepositories.findAll();
     }
@@ -35,6 +39,8 @@ public class BookOriginalServices {
 
     @Transactional
     public void delete(long id) {
+        statisticsServices.delete(id);
+        bookServices.deleteAllBookByBookOriginalId(id);
         bookOriginalRepositories.deleteById(id);
     }
 }

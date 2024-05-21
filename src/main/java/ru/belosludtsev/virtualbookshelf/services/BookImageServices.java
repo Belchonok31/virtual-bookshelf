@@ -44,6 +44,12 @@ public class BookImageServices {
         return bookImageRepositories.findById(id).orElse(null);
     }
 
+    public BookImage findOneByBookId(long bookId) {
+        return bookImageRepositories.findAll().stream()
+                .filter(bookImage -> bookImage.getBook().getId() == bookId)
+                .findFirst().orElse(null);
+    }
+
     @Transactional
     public void save(long bookId, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();

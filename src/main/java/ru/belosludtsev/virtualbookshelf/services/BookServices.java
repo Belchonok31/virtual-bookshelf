@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
+import ru.belosludtsev.virtualbookshelf.entities.BookOriginal;
 import ru.belosludtsev.virtualbookshelf.entities.Shelf;
+import ru.belosludtsev.virtualbookshelf.repositories.BookOriginalRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 
@@ -19,6 +21,8 @@ public class BookServices {
     private final BookRepositories bookRepositories;
 
     private final ShelfRepositories shelfRepositories;
+
+    private final BookOriginalRepositories bookOriginalRepositories;
 
     private final BookImageServices bookImageServices;
 
@@ -37,16 +41,27 @@ public class BookServices {
     }
 
     @Transactional
-    public void save(long shelfId, Book book) {
+    public void save(long shelfId, long bookOriginalId, Book book) {
+
         // todo add check valid shelfId
         Optional<Shelf> optionalShelf = shelfRepositories.findById(shelfId);
         optionalShelf.ifPresent(book::setShelf);
+
+        // todo add check valid bookOriginalId
+        Optional<BookOriginal> optionalBookOriginal = bookOriginalRepositories.findById(bookOriginalId);
+        optionalBookOriginal.ifPresent(book::setBookOriginal);
+
         bookRepositories.save(book);
     }
 
     @Transactional
-    public void update(long id, Book bookUpdate) {
+    public void update(long id, long bookOriginalId, Book bookUpdate) {
+
         bookUpdate.setId(id);
+
+        Optional<BookOriginal> optionalBookOriginal = bookOriginalRepositories.findById(bookOriginalId);
+        optionalBookOriginal.ifPresent(bookUpdate::setBookOriginal);
+
         bookRepositories.save(bookUpdate);
     }
 
@@ -60,6 +75,14 @@ public class BookServices {
     public void deleteAllBookByShelfId(long shelfId) {
         bookRepositories.findAll().stream()
                 .filter(book -> book.getShelf().getId() == shelfId)
+                .map(Book::getId)
+                .forEach(this::delete);
+    }
+
+    @Transactional
+    public void deleteAllBookByBookOriginalId(long bookOriginalId) {
+        bookRepositories.findAll().stream()
+                .filter(book -> book.getBookOriginal().getId() == bookOriginalId)
                 .map(Book::getId)
                 .forEach(this::delete);
     }

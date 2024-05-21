@@ -32,8 +32,14 @@ public class BookImageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getBookImageById(@PathVariable("id") long id) throws IOException {
+    public ResponseEntity<BookImage> getBookImageById(@PathVariable("id") long id) {
         BookImage bookImage = bookImageServices.findOne(id);
+        return ResponseEntity.ok(bookImage);
+    }
+
+    @GetMapping
+    public ResponseEntity<byte[]> getBookImageByBookId(@PathVariable("id") long bookId) throws IOException {
+        BookImage bookImage = bookImageServices.findOneByBookId(bookId);
         if (bookImage != null) {
             Path filePath = Paths.get(bookImage.getUrl());
             byte[] imageBytes = Files.readAllBytes(filePath);
