@@ -3,16 +3,21 @@ package ru.belosludtsev.virtualbookshelf.services;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.entities.Statistics;
+import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.StatisticsRepositories;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class StatisticsServices {
 
     private final StatisticsRepositories statisticsRepositories;
+
+    private final BookRepositories bookRepositories;
 
     public List<Statistics> findAll(){
         return statisticsRepositories.findAll();
@@ -23,18 +28,14 @@ public class StatisticsServices {
     }
 
     @Transactional
-    public void save(Statistics statistics){
+    public void save(long bookId, Statistics statistics){
+        Optional<Book> optionalBook = bookRepositories.findById(bookId);
+        optionalBook.ifPresent(statistics::setBook);
         statisticsRepositories.save(statistics);
     }
 
     @Transactional
-    public void update(long id, Statistics statisticsUpdate){
-        statisticsUpdate.setId(id);
-        statisticsRepositories.save(statisticsUpdate);
-    }
-
-    @Transactional
-    public void delete(long id){
+    public void deleteByBookISBN(long id){
         statisticsRepositories.deleteById(id);
     }
 }

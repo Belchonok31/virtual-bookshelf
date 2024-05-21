@@ -1,7 +1,10 @@
 package ru.belosludtsev.virtualbookshelf.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.belosludtsev.virtualbookshelf.entities.Statistics;
 import ru.belosludtsev.virtualbookshelf.services.StatisticsServices;
 
@@ -22,20 +25,5 @@ public class StatisticsController {
     @GetMapping("/{id}")
     public Statistics show(@PathVariable("id") long id) {
         return statisticsServices.findOne(id);
-    }
-
-    @PostMapping
-    public void save(@RequestBody Statistics statistics) {
-        statisticsServices.save(statistics);
-    }
-
-    @PatchMapping("/{id}")
-    public void update(@PathVariable("id") long id, @RequestBody Statistics statisticsUpdate) {
-        statisticsServices.update(id, statisticsUpdate);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id) {
-        statisticsServices.delete(id);
     }
 }

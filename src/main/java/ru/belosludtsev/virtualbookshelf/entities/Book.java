@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "book")
@@ -23,19 +20,19 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String ISBN;
-
-    @NotNull
     private String name;
 
-    @NotNull
-    private String authors;
+    private String label;
 
-    private String genre;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    @JsonIgnore
+    private BookOriginal bookOriginal;
 
-    private LocalDate dateIssue;
-
-    private String description;
+    @JsonProperty
+    public Long getBookOriginalId() {
+        return bookOriginal != null ? bookOriginal.getId() : null;
+    }
 
     @ManyToOne
     @JoinColumn(name = "shelf_id")

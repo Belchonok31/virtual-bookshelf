@@ -5,10 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
-import ru.belosludtsev.virtualbookshelf.entities.Shelf;
 import ru.belosludtsev.virtualbookshelf.services.BookServices;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,7 +17,7 @@ public class BookController {
     private final BookServices bookServices;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Book>> getAllBook(){
+    public ResponseEntity<List<Book>> getAllBook() {
         List<Book> books = bookServices.findAll();
         return ResponseEntity.ok(books);
     }
@@ -41,7 +39,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<String> createBook(@PathVariable("shelfId") long shelfId, @RequestBody Book book) {
         bookServices.save(shelfId, book);
-//        return ResponseEntity.ok("Shelf created successfully");
+//        return ResponseEntity.ok("BookImage created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -49,7 +47,7 @@ public class BookController {
     public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestBody Book bookUpdate) {
         if (bookServices.findOne(id) != null) {
             bookServices.update(id, bookUpdate);
-            return ResponseEntity.ok("Shelf updated successfully");
+            return ResponseEntity.ok("Book updated successfully");
         } else return ResponseEntity.notFound().build();
     }
 
@@ -57,7 +55,7 @@ public class BookController {
     public ResponseEntity<String> deleteBook(@PathVariable("id") long id) {
         if (bookServices.findOne(id) != null) {
             bookServices.delete(id);
-            return ResponseEntity.ok("Shelf deleted successfully");
+            return ResponseEntity.ok("Book deleted successfully");
         } else return ResponseEntity.notFound().build();
     }
 }

@@ -51,7 +51,7 @@ public class BookImageController {
     @PostMapping
     public ResponseEntity<String> createBookImage(@PathVariable("bookId") long bookId, @RequestPart MultipartFile file) throws IOException {
         bookImageServices.save(bookId, file);
-//        return ResponseEntity.ok("Shelf created successfully");
+//        return ResponseEntity.ok("BookImage created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -59,7 +59,7 @@ public class BookImageController {
     public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestPart MultipartFile fileUpdate) throws IOException {
         if (bookImageServices.findOne(id) != null) {
             bookImageServices.update(id, fileUpdate);
-            return ResponseEntity.ok("Shelf updated successfully");
+            return ResponseEntity.ok("BookImage updated successfully");
         } else return ResponseEntity.notFound().build();
     }
 
@@ -67,7 +67,7 @@ public class BookImageController {
     public ResponseEntity<String> deleteBookImage(@PathVariable("id") long id) {
         if (bookImageServices.findOne(id) != null) {
             bookImageServices.delete(id);
-            return ResponseEntity.ok("Shelf deleted successfully");
+            return ResponseEntity.ok("BookImage deleted successfully");
         } else return ResponseEntity.notFound().build();
     }
 }

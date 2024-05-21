@@ -41,7 +41,6 @@ public class BookServices {
         // todo add check valid shelfId
         Optional<Shelf> optionalShelf = shelfRepositories.findById(shelfId);
         optionalShelf.ifPresent(book::setShelf);
-        book.setISBN(generateISBN(book.getName(), book.getAuthors()));
         bookRepositories.save(book);
     }
 
@@ -63,11 +62,6 @@ public class BookServices {
                 .filter(book -> book.getShelf().getId() == shelfId)
                 .map(Book::getId)
                 .forEach(this::delete);
-    }
-
-    private String generateISBN(String name, String authors) {
-        return "ISBN-" + name.substring(0, Math.min(name.length(), 3)).toUpperCase() +
-                authors.substring(0, Math.min(authors.length(), 3)).toUpperCase();
     }
 
 }

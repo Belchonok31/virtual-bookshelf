@@ -1,5 +1,7 @@
 package ru.belosludtsev.virtualbookshelf.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,13 +30,31 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
+
+    @JsonProperty("user_id")
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
+    }
 
     @ManyToOne
     @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book book;
+
+    @JsonProperty("book_id")
+    public Long getBookId() {
+        return book != null ? book.getId() : null;
+    }
 
     @ManyToOne
     @JoinColumn(name = "statistics_id")
+    @JsonIgnore
     private Statistics statistics;
+
+    @JsonProperty("statistics_id")
+    public Long getStatisticsId() {
+        return statistics != null ? statistics.getId() : null;
+    }
 }
