@@ -5,17 +5,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.Shelf;
+import ru.belosludtsev.virtualbookshelf.entities.User;
+import ru.belosludtsev.virtualbookshelf.services.AuthenticatedUserService;
 import ru.belosludtsev.virtualbookshelf.services.ShelfServices;
 
 import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/client/{clientId}/shelf")
+@RequestMapping("/shelf")
 @RequiredArgsConstructor
 public class ShelfController {
 
     private final ShelfServices shelfServices;
+
+    private final AuthenticatedUserService authenticatedUserService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Shelf>> getAllShelf(){
@@ -24,22 +28,25 @@ public class ShelfController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Shelf>> getAllShelf(@PathVariable("clientId") long clientId) {
-        List<Shelf> shelves = shelfServices.findAll(clientId);
+    public ResponseEntity<List<Shelf>> getAllShelfByClientId() {
+        User user = authenticatedUserService.getAuthenticatedUser();
+        List<Shelf> shelves = shelfServices.findAll(user.getId());
         return ResponseEntity.ok(shelves);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Shelf> getShelfById(@PathVariable("id") long id) {
-        Shelf shelf = shelfServices.findOne(id);
+    public ResponseEntity<Shelf> getShelfById() {
+        User user = authenticatedUserService.getAuthenticatedUser();
+        Shelf shelf = shelfServices.findOne(user.getId());
         if (shelf != null) {
             return ResponseEntity.ok(shelf);
         } else return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<String> createShelf(@PathVariable("clientId") long clientId, @RequestBody Shelf shelf) {
-        shelfServices.save(clientId, shelf);
+    public ResponseEntity<String> createShelf(@RequestBody Shelf shelf) {
+        User user = authenticatedUserService.getAuthenticatedUser();
+        shelfServices.save(user.getId(), shelf);
 //        return ResponseEntity.ok("Shelf created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

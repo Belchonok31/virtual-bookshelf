@@ -2,17 +2,20 @@ package ru.belosludtsev.virtualbookshelf.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.belosludtsev.virtualbookshelf.entities.MeUserDetails;
 import ru.belosludtsev.virtualbookshelf.entities.User;
-import ru.belosludtsev.virtualbookshelf.repositories.ShelfRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServices {
+public class UserServices implements UserDetailsService {
 
     private final UserRepositories userRepositories;
 
@@ -41,5 +44,14 @@ public class UserServices {
     public void delete(long id) {
         shelfServices.deleteAllShelfByClientId(id);
         userRepositories.deleteById(id);
+    }
+
+    @Override
+    public MeUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepositories.findByEmail(username);
+        if (optionalUser.isPresent()) {
+            return new MeUserDetails(optionalUser.get());
+        }
+        else throw new UsernameNotFoundException("User not found");
     }
 }
