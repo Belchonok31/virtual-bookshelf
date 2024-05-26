@@ -3,6 +3,7 @@ package ru.belosludtsev.virtualbookshelf.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.dao.request.SignInRequest;
 import ru.belosludtsev.virtualbookshelf.dao.request.SignUpRequest;
@@ -22,13 +23,15 @@ public class AuthenticationServices {
 
     private final AuthenticationManager authenticationManager;
 
+    private final PasswordEncoder passwordEncoder;
+
     public JWTAuthenticationResponse signUp(SignUpRequest request) {
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .middleName(request.getMiddleName())
                 .email(request.getEmail())
-                .password(request.getPassword())
-                .role(Role.USER)
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ROLE_USER)
                 .build();
         userRepositories.save(user);
         var jwt = jwtServices.generateToken(new MeUserDetails(user));
