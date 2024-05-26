@@ -10,6 +10,8 @@ import ru.belosludtsev.virtualbookshelf.services.ShelfServices;
 
 import java.util.List;
 
+// todo delete this class
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/all")
