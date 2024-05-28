@@ -17,7 +17,7 @@ public class StatisticsController {
 
     private final StatisticsServices statisticsServices;
 
-    @GetMapping("statistics")
+    @GetMapping("/statistics")
     public ResponseEntity<List<Statistics>> getAllStatistics() {
         List<Statistics> statistics = statisticsServices.findAll();
         return ResponseEntity.ok(statistics);

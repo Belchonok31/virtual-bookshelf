@@ -46,7 +46,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**","/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/bookOriginal", "/bookOriginal/{id}").authenticated()
-                        .requestMatchers("/all/**", "/bookOriginal/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/user/{id}").authenticated()
+                        .requestMatchers("/bookOriginal/**", "/bookImage",
+                                "/review/all", "/statistics", "/user/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
