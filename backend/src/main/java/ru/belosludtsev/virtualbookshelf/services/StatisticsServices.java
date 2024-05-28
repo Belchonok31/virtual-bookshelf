@@ -55,9 +55,7 @@ public class StatisticsServices {
     }
 
     @Transactional
-    public void updateRating(float ratingOfReview, long bookId) {
-
-        long bookOriginalId = getBookOriginalIdByBookId(bookId);
+    public void updateRating(float ratingOfReview, long bookOriginalId) {
 
         Optional<Statistics> optionalStatistics = statisticsRepositories.findAll().stream()
                 .filter(statistics -> statistics.getBookOriginal().getId() == bookOriginalId)
@@ -71,11 +69,6 @@ public class StatisticsServices {
 
     private float setNewRating(float oldRating, float ratingOfReview, int numberOfReviews) {
         return (oldRating + ratingOfReview) / numberOfReviews;
-    }
-
-    private long getBookOriginalIdByBookId(long bookId) {
-        Optional<Book> optionalBook = bookRepositories.findById(bookId);
-        return optionalBook.get().getBookOriginalId();
     }
 
     @Transactional

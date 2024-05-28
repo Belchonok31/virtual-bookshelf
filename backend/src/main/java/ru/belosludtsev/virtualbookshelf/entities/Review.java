@@ -39,12 +39,12 @@ public class Review {
     }
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_original_id")
     @JsonIgnore
-    private Book book;
+    private BookOriginal bookOriginal;
 
-    @JsonProperty("book_id")
-    public Long getBookId() {
-        return book != null ? book.getId() : null;
+    @JsonProperty("book_original_id")
+    public Long getBookOriginalId() {
+        return bookOriginal != null ? bookOriginal.getId() : null;
     }
 }

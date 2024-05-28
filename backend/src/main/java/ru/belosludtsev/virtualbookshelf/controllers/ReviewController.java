@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.belosludtsev.virtualbookshelf.entities.Review;
+import ru.belosludtsev.virtualbookshelf.entities.User;
+import ru.belosludtsev.virtualbookshelf.services.AuthenticatedUserService;
 import ru.belosludtsev.virtualbookshelf.services.ReviewServices;
 import ru.belosludtsev.virtualbookshelf.services.StatisticsServices;
 
@@ -12,26 +14,29 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("client/{clientId}")
+@RequestMapping("/review")
 public class ReviewController {
 
     private final ReviewServices reviewServices;
 
     private final StatisticsServices statisticsServices;
 
-    @GetMapping("/review/all")
+    private final AuthenticatedUserService authenticatedUserService;
+
+    @GetMapping("/all")
     public ResponseEntity<List<Review>> getAllReviews() {
         List<Review> reviews = reviewServices.findAll();
         return ResponseEntity.ok(reviews);
     }
 
-    @GetMapping("/review")
-    public ResponseEntity<List<Review>> getAllReviewsByClientId(@PathVariable("clientId") long clientId) {
-        List<Review> reviews = reviewServices.findAllByClientId(clientId);
+    @GetMapping
+    public ResponseEntity<List<Review>> getAllReviewsByClientId() {
+        User user = authenticatedUserService.getAuthenticatedUser();
+        List<Review> reviews = reviewServices.findAllByClientId(user.getId());
         return ResponseEntity.ok(reviews);
     }
 
-    @GetMapping("/review/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable("id") long id) {
         Review review = reviewServices.findOne(id);
         if (review != null) {
@@ -40,29 +45,29 @@ public class ReviewController {
         else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("book/{bookId}/review")
-    public ResponseEntity<List<Review>> getAllReviewsByBookId(@PathVariable("bookId") long bookId) {
-        List<Review> reviews = reviewServices.findAllByBookId(bookId);
+    @GetMapping("bookOriginal/{bookOriginalId}/review")
+    public ResponseEntity<List<Review>> getAllReviewsByBookId(@PathVariable("bookOriginalId") long bookOriginalId) {
+        List<Review> reviews = reviewServices.findAllByBookOriginalId(bookOriginalId);
         return ResponseEntity.ok(reviews);
     }
 
-    @PostMapping("book/{bookId}/review")
+    @PostMapping("bookOriginal/{bookOriginalId}/review")
     public ResponseEntity<String> save(@PathVariable("clientId") long clientId,
-                                       @PathVariable("bookId") long bookId,
+                                       @PathVariable("bookOriginalId") long bookOriginalId,
                                        @RequestBody Review review) {
-        reviewServices.save(clientId, bookId, review);
-        statisticsServices.updateRating(review.getRating(), bookId);
+        reviewServices.save(clientId, bookOriginalId, review);
+        statisticsServices.updateRating(review.getRating(), bookOriginalId);
         //        return ResponseEntity.ok("Review created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping("book/{bookId}/review/{id}")
+    @PatchMapping("bookOriginal/{bookOriginalId}/review/{id}")
     public ResponseEntity<String> update(@PathVariable("id") long id,
-                                         @PathVariable("bookId") long bookId,
+                                         @PathVariable("bookOriginalId") long bookOriginalId,
                                          @RequestBody Review reviewUpdate) {
         if (reviewServices.findOne(id) != null) {
             reviewServices.update(id, reviewUpdate);
-            statisticsServices.updateRating(reviewUpdate.getRating(), bookId);
+            statisticsServices.updateRating(reviewUpdate.getRating(), bookOriginalId);
             return ResponseEntity.ok("Review updated successfully");
         } else return ResponseEntity.notFound().build();
     }

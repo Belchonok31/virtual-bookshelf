@@ -70,7 +70,6 @@ public class BookServices {
     @Transactional
     public void delete(long id) {
         bookImageServices.deleteAllBookImageByBookId(id);
-        reviewServices.deleteAllReviewsByBookId(id);
         bookRepositories.deleteById(id);
     }
 

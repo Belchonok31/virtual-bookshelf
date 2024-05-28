@@ -18,6 +18,8 @@ public class BookOriginalServices {
 
     private final BookServices bookServices;
 
+    private final ReviewServices reviewServices;
+
     public List<BookOriginal> findAll() {
         return bookOriginalRepositories.findAll();
     }
@@ -40,6 +42,7 @@ public class BookOriginalServices {
     @Transactional
     public void delete(long id) {
         statisticsServices.delete(id);
+        reviewServices.deleteAllReviewsByBookOriginalId(id);
         bookServices.deleteAllBookByBookOriginalId(id);
         bookOriginalRepositories.deleteById(id);
     }

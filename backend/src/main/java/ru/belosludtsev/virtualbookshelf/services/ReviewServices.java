@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
+import ru.belosludtsev.virtualbookshelf.entities.BookOriginal;
 import ru.belosludtsev.virtualbookshelf.entities.Review;
 import ru.belosludtsev.virtualbookshelf.entities.User;
+import ru.belosludtsev.virtualbookshelf.repositories.BookOriginalRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.ReviewRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
@@ -22,7 +24,7 @@ public class ReviewServices {
 
     private final UserRepositories userRepositories;
 
-    private final BookRepositories bookRepositories;
+    private final BookOriginalRepositories bookOriginalRepositories;
 
     public List<Review> findAll(){
         return reviewRepositories.findAll();
@@ -34,9 +36,9 @@ public class ReviewServices {
                 .collect(Collectors.toList());
     }
 
-    public List<Review> findAllByBookId(long bookId){
+    public List<Review> findAllByBookOriginalId(long bookOriginalId){
         return reviewRepositories.findAll().stream()
-                .filter(review -> review.getBook().getId() == bookId)
+                .filter(review -> review.getBookOriginal().getId() == bookOriginalId)
                 .collect(Collectors.toList());
     }
 
@@ -45,13 +47,13 @@ public class ReviewServices {
     }
 
     @Transactional
-    public void save(long clientId, long bookId, Review review){
+    public void save(long clientId, long bookOriginalId, Review review){
 
         Optional<User> optionalUser = userRepositories.findById(clientId);
         optionalUser.ifPresent(review::setUser);
 
-        Optional<Book> optionalBook = bookRepositories.findById(bookId);
-        optionalBook.ifPresent(review::setBook);
+        Optional<BookOriginal> optionalBookOriginal =bookOriginalRepositories.findById(bookOriginalId);
+        optionalBookOriginal.ifPresent(review::setBookOriginal);
 
         reviewRepositories.save(review);
     }
@@ -68,9 +70,9 @@ public class ReviewServices {
     }
 
     @Transactional
-    public void deleteAllReviewsByBookId(long bookId) {
+    public void deleteAllReviewsByBookOriginalId(long bookOriginalId) {
         reviewRepositories.findAll().stream()
-                .filter(review -> review.getBook().getId() == bookId)
+                .filter(review -> review.getBookOriginal().getId() == bookOriginalId)
                 .map(Review::getId)
                 .forEach(this::delete);
     }
