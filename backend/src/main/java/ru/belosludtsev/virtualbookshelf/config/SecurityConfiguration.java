@@ -3,6 +3,7 @@ package ru.belosludtsev.virtualbookshelf.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.cors.CorsConfiguration;
 import ru.belosludtsev.virtualbookshelf.services.UserServices;
 
@@ -43,7 +45,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**","/image/**").permitAll()
-                        .requestMatchers("/all/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/bookOriginal", "/bookOriginal/{id}").authenticated()
+                        .requestMatchers("/all/**", "/bookOriginal/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

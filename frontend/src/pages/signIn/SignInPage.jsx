@@ -68,6 +68,7 @@ function SignInPage() {
         </div>
         {error && <div className={styles.error}>{error}</div>}
         <button type="submit" className={styles.button} disabled={authStatus === 'loading'}>
+          Sign In
         </button>
       </form>
     </div>

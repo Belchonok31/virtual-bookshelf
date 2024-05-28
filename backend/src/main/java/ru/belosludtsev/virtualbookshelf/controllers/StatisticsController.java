@@ -13,24 +13,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("bookOriginal/{bookOriginalId}/statistics")
 public class StatisticsController {
 
     private final StatisticsServices statisticsServices;
 
-    @GetMapping("/all")
+    @GetMapping("statistics")
     public ResponseEntity<List<Statistics>> getAllStatistics() {
         List<Statistics> statistics = statisticsServices.findAll();
         return ResponseEntity.ok(statistics);
     }
 
-    @GetMapping
+    @GetMapping("/bookOriginal/{bookOriginalId}/statistics")
     public ResponseEntity<Statistics> getStatisticsByBookOriginalId(@PathVariable("bookOriginalId") long bookOriginalId) {
         Statistics statistics = statisticsServices.findOneByBookOriginalId(bookOriginalId);
         return ResponseEntity.ok(statistics);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/statistics/{id}")
     public ResponseEntity<Statistics> getStatisticsById(@PathVariable("id") long id) {
         Statistics statistics = statisticsServices.findOne(id);
         if (statistics != null) {

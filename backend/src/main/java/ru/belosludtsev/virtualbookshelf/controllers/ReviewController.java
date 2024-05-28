@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/review")
 public class ReviewController {
 
     private final ReviewServices reviewServices;
@@ -23,20 +22,20 @@ public class ReviewController {
 
     private final AuthenticatedUserService authenticatedUserService;
 
-    @GetMapping("/all")
+    @GetMapping("/review/all")
     public ResponseEntity<List<Review>> getAllReviews() {
         List<Review> reviews = reviewServices.findAll();
         return ResponseEntity.ok(reviews);
     }
 
-    @GetMapping
+    @GetMapping("/review")
     public ResponseEntity<List<Review>> getAllReviewsByClientId() {
         User user = authenticatedUserService.getAuthenticatedUser();
         List<Review> reviews = reviewServices.findAllByClientId(user.getId());
         return ResponseEntity.ok(reviews);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/review/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable("id") long id) {
         Review review = reviewServices.findOne(id);
         if (review != null) {
@@ -45,23 +44,23 @@ public class ReviewController {
         else return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("bookOriginal/{bookOriginalId}/review")
+    @GetMapping("/bookOriginal/{bookOriginalId}/review")
     public ResponseEntity<List<Review>> getAllReviewsByBookId(@PathVariable("bookOriginalId") long bookOriginalId) {
         List<Review> reviews = reviewServices.findAllByBookOriginalId(bookOriginalId);
         return ResponseEntity.ok(reviews);
     }
 
-    @PostMapping("bookOriginal/{bookOriginalId}/review")
-    public ResponseEntity<String> save(@PathVariable("clientId") long clientId,
-                                       @PathVariable("bookOriginalId") long bookOriginalId,
+    @PostMapping("/bookOriginal/{bookOriginalId}/review")
+    public ResponseEntity<String> save(@PathVariable("bookOriginalId") long bookOriginalId,
                                        @RequestBody Review review) {
-        reviewServices.save(clientId, bookOriginalId, review);
+        User user = authenticatedUserService.getAuthenticatedUser();
+        reviewServices.save(user.getId(), bookOriginalId, review);
         statisticsServices.updateRating(review.getRating(), bookOriginalId);
         //        return ResponseEntity.ok("Review created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping("bookOriginal/{bookOriginalId}/review/{id}")
+    @PatchMapping("/bookOriginal/{bookOriginalId}/review/{id}")
     public ResponseEntity<String> update(@PathVariable("id") long id,
                                          @PathVariable("bookOriginalId") long bookOriginalId,
                                          @RequestBody Review reviewUpdate) {
@@ -72,7 +71,7 @@ public class ReviewController {
         } else return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/review/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         if (reviewServices.findOne(id) != null) {
             reviewServices.delete(id);

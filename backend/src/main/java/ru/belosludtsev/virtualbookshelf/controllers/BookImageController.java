@@ -20,24 +20,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("book/{bookId}/bookImage")
 public class BookImageController {
 
     private final BookImageServices bookImageServices;
 
-    @GetMapping("/all")
+    @GetMapping("/bookImage")
     public ResponseEntity<List<BookImage>> getAllBookImage() {
         List<BookImage> bookImages = bookImageServices.findAll();
         return ResponseEntity.ok(bookImages);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/bookImage/{id}")
     public ResponseEntity<BookImage> getBookImageById(@PathVariable("id") long id) {
         BookImage bookImage = bookImageServices.findOne(id);
         return ResponseEntity.ok(bookImage);
     }
 
-    @GetMapping
+    @GetMapping("/book/{bookId}/bookImage")
     public ResponseEntity<byte[]> getBookImageByBookId(@PathVariable("id") long bookId) throws IOException {
         BookImage bookImage = bookImageServices.findOneByBookId(bookId);
         if (bookImage != null) {
@@ -54,14 +53,14 @@ public class BookImageController {
         return MediaType.parseMediaType(contentType);
     }
 
-    @PostMapping
+    @PostMapping("/book/{bookId}/bookImage")
     public ResponseEntity<String> createBookImage(@PathVariable("bookId") long bookId, @RequestPart MultipartFile file) throws IOException {
         bookImageServices.save(bookId, file);
 //        return ResponseEntity.ok("BookImage created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/bookImage/{id}")
     public ResponseEntity<String> updateBook(@PathVariable("id") long id, @RequestPart MultipartFile fileUpdate) throws IOException {
         if (bookImageServices.findOne(id) != null) {
             bookImageServices.update(id, fileUpdate);
@@ -69,7 +68,7 @@ public class BookImageController {
         } else return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/bookImage/{id}")
     public ResponseEntity<String> deleteBookImage(@PathVariable("id") long id) {
         if (bookImageServices.findOne(id) != null) {
             bookImageServices.delete(id);

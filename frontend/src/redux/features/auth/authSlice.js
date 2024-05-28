@@ -1,6 +1,6 @@
 // src/features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, registerUser } from './authThunk'; // Обновите импорт для registerUser, если необходимо
+import { loginUser, registerUser } from './authThunk'; 
 
 const authSlice = createSlice({
   name: 'auth',

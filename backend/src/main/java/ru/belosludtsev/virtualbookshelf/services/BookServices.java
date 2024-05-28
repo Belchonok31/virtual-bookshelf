@@ -57,13 +57,8 @@ public class BookServices {
     }
 
     @Transactional
-    public void update(long id, long bookOriginalId, Book bookUpdate) {
-
+    public void update(long id, Book bookUpdate) {
         bookUpdate.setId(id);
-
-        Optional<BookOriginal> optionalBookOriginal = bookOriginalRepositories.findById(bookOriginalId);
-        optionalBookOriginal.ifPresent(bookUpdate::setBookOriginal);
-
         bookRepositories.save(bookUpdate);
     }
 

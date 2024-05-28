@@ -92,6 +92,7 @@ function SignUpPage() {
           {passwordError && <div className={styles.error}>{passwordError}</div>}
         </div>
         <button type="submit" className={styles.button} disabled={authStatus === 'loading'}>
+        Sign Up
         </button>
       </form>
     </div>

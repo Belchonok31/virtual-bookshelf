@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shelf")
 @RequiredArgsConstructor
 public class ShelfController {
 
@@ -21,29 +20,28 @@ public class ShelfController {
 
     private final AuthenticatedUserService authenticatedUserService;
 
-    @GetMapping("/all")
+    @GetMapping("/shelf/all")
     public ResponseEntity<List<Shelf>> getAllShelf(){
         List<Shelf> shelves = shelfServices.findAll();
         return ResponseEntity.ok(shelves);
     }
 
-    @GetMapping
+    @GetMapping("/shelf")
     public ResponseEntity<List<Shelf>> getAllShelfByClientId() {
         User user = authenticatedUserService.getAuthenticatedUser();
         List<Shelf> shelves = shelfServices.findAll(user.getId());
         return ResponseEntity.ok(shelves);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Shelf> getShelfById() {
-        User user = authenticatedUserService.getAuthenticatedUser();
-        Shelf shelf = shelfServices.findOne(user.getId());
+    @GetMapping("/shelf/{id}")
+    public ResponseEntity<Shelf> getShelfById(@PathVariable("id") long shelfId) {
+        Shelf shelf = shelfServices.findOne(shelfId);
         if (shelf != null) {
             return ResponseEntity.ok(shelf);
         } else return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/shelf")
     public ResponseEntity<String> createShelf(@RequestBody Shelf shelf) {
         User user = authenticatedUserService.getAuthenticatedUser();
         shelfServices.save(user.getId(), shelf);
@@ -51,7 +49,7 @@ public class ShelfController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/shelf/{id}")
     public ResponseEntity<String> updateShelf(@PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
         if (shelfServices.findOne(id) != null) {
             shelfServices.update(id, shelfUpdate);
@@ -59,7 +57,7 @@ public class ShelfController {
         } else return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/shelf/{id}")
     public ResponseEntity<String> deleteShelf(@PathVariable("id") long id) {
         if (shelfServices.findOne(id) != null) {
             shelfServices.delete(id);
