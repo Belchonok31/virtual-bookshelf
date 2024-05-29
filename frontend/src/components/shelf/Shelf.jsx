@@ -1,17 +1,22 @@
 import React from 'react';
-import styles from './Shelf.module.css'
+import styles from './Shelf.module.css';
 
 const Shelf = ({ shelf }) => {
+    const shelfUrl = `/shelf/${shelf.id}`;
 
     return (
-        <div className={styles.main}>
-            <h2>Shelf</h2>
-            <div key={shelf.id} className={styles.shelf}>
+        <div className={styles.shelfContainer}>
+            <img src="https://i.pinimg.com/originals/3b/bd/f9/3bbdf999912fa2e0b9d439375d77806b.png" alt={shelf.name} className={styles.shelfImage} />
+            <div className={styles.shelfDetails}>
                 <p className={styles.shelfName}>{shelf.name}</p>
-                <p className={styles.shelfDescription}>{shelf.description}</p>
+                <a href={shelfUrl} className={styles.shelfUrl}>Содержание...</a>
+            </div>
+            <div className={styles.actions}>
+                <button className={styles.actionButton}>Редактировать</button>
+                <button className={styles.deleteButton}>Удалить</button>
             </div>
         </div>
-    )
+    );
 }
 
 export default Shelf;

@@ -2,12 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../app/axiosInstanse';
 
 
-export const getShelfsAll = createAsyncThunk('shelf/fetchAllAdmin', async () => {
+export const getShelfsAll = createAsyncThunk('shelf/fetchAll', async () => {
     const response = await axiosInstance.get('/shelf/all');
     return response.data;
 });
 
-export const getShelfs = createAsyncThunk('shelf/fetchAll', async () => {
+export const getShelfs = createAsyncThunk('shelf/fetchAllMe', async () => {
     const response = await axiosInstance.get('/shelf');
     return response.data;
 });

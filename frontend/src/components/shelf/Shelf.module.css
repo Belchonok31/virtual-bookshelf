@@ -1,20 +1,55 @@
-.main {
-    padding: 20px;
-    border: 2px grey solid;
+.shelfContainer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px;
 }
 
-.shelf {
-border: 1px solid #ccc;
-border-radius: 5px;
-padding: 10px;
-margin-bottom: 20px;
+.shelfImage {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 5px;
 }
 
-.shelf-name {
-font-size: 18px;
-font-weight: bold;
+.shelfDetails {
+    flex: 1;
 }
 
-.shelf-description {
-margin-top: 5px;
+.shelfName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.shelfUrl {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.shelfDate {
+    color: #888;
+    font-size: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actionButton, .deleteButton {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.deleteButton {
+    background-color: #dc3545;
 }

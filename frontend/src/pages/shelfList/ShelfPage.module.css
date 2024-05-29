@@ -1,0 +1,38 @@
+.container {
+    padding: 20px;
+    margin: 0 20vw;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.newButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+h2 {
+    margin: 0 20px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.searchInput {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.shelfList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

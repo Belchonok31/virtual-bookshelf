@@ -1,20 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../axiosInstance';
-
-export const getBooks = createAsyncThunk('books/fetchBooks', async () => {
-    const response = await axiosInstance.get('/books');
-    return response.data;
-});
-  
-  export const fetchComment = createAsyncThunk('books/fetchComment', async (book_id) => {
-    const response = await axiosInstance.get(`/comments/${book_id}`);
-    return response.data;
-});
-
-export const addBook = createAsyncThunk('books/addBook', async (bookData) => {
-    const response = await axiosInstance.post('/books', bookData);
-    return response.data;
-});
+import { createSlice } from '@reduxjs/toolkit';
+import { getBooks, ge } from './bookThunk';
   
   const booksSlice = createSlice({
     name: 'books',

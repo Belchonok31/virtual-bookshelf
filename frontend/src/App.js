@@ -5,7 +5,8 @@ import './App.css';
 import SignUpPage from './pages/signUp/SignUpPage';
 import SignInPage from './pages/signIn/SignInPage';
 import MainPage from './pages/main/MainPage'
-import ShelfPage from './pages/shelf/ShelfPage';
+import ShelfPage from './pages/shelfList/ShelfPage';
+import ShelfItemPage from './pages/shelfItem/ShelfItemPage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/signIn" element={<SignInPage/>} />
             <Route path='/' element={<MainPage/>} />
             <Route path='/shelf' element={<ShelfPage/>} />
+            <Route path="/shelf/:id" component={ShelfItemPage} />
           </Routes>
       </BrowserRouter>
     </Provider>
