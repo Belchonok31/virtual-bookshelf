@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Shelf.module.css';
 
-const Shelf = ({ shelf }) => {
+const Shelf = ({ shelf, onEdit, onDelete }) => {
     const shelfUrl = `/shelf/${shelf.id}`;
 
     return (
@@ -12,8 +12,8 @@ const Shelf = ({ shelf }) => {
                 <a href={shelfUrl} className={styles.shelfUrl}>Содержание...</a>
             </div>
             <div className={styles.actions}>
-                <button className={styles.actionButton}>Редактировать</button>
-                <button className={styles.deleteButton}>Удалить</button>
+                <button className={styles.actionButton} onClick={() => onEdit(shelf)}>Редактировать</button>
+                <button className={styles.deleteButton} onClick={() => onDelete(shelf.id)}>Удалить</button>
             </div>
         </div>
     );

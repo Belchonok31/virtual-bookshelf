@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { getShelfs, addShelf } from '../../redux/features/shelfs/shelfThunks';
+import {getShelfs, createShelf, updateShelf,removeShelf} from '../../redux/features/shelfs/shelfActions'
 import Shelf from '../../components/shelf/Shelf';
 import styles from './ShelfPage.module.css';
 import Cookies from 'universal-cookie';
 
 const ShelfPage = () => {
 
+    const dispatch = useDispatch();
     const cookie = new Cookies()
+
     useEffect(() => {
         const token = cookie.get('token');
         if (!token) {
           window.location.href = '/signIn';
         }
-        else {
-            dispatch(getShelfs());
-        }
-      }, []);
+        dispatch(getShelfs())
+      }, [dispatch]);
 
 
-    const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [editingShelf, setEditingShelf] = useState(null);
     const shelfs = useSelector((state) => state.shelf.items);
+
 
     const [shelfForm, setShelfForm] = useState({
         name: '',
@@ -33,7 +34,14 @@ const ShelfPage = () => {
         setShelfForm({ ...shelfForm, [e.target.name]: e.target.value });
     };
 
-    const handleShow = () => {
+    const handleShow = (shelf = null) => {
+        if (shelf) {
+            setEditingShelf(shelf);
+            setShelfForm({ name: shelf.name, description: shelf.description });
+        } else {
+            setEditingShelf(null);
+            setShelfForm({ name: '', description: '' });
+        }
         setShow(true);
     };
 
@@ -43,25 +51,39 @@ const ShelfPage = () => {
 
     const handleAdd = (e) => {
         e.preventDefault();
-        dispatch(addShelf(shelfForm));
-        window.location.reload();
+        if (editingShelf) {
+            dispatch(updateShelf(editingShelf.id, shelfForm));
+        } else {
+            dispatch(createShelf(shelfForm));
+        }
+        setShow(false);
+        setShelfForm({name: '', description: ''});
+    };
+
+    const handleDelete = (id) => {
+        dispatch(removeShelf(id));
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <button className={styles.newButton} onClick={handleShow}>Добавить полку</button>
+                <button className={styles.newButton} onClick={() => handleShow()}>Добавить полку</button>
                 <h2>Мои полки</h2>
                 <input type="text" placeholder="Поиск" className={styles.searchInput} />
             </div>
             <div className={styles.shelfList}>
                 {shelfs.map((shelf) => (
-                    <Shelf key={shelf.id} shelf={shelf} />
+                    <Shelf
+                        key={shelf.id}
+                        shelf={shelf}
+                        onEdit={() => handleShow(shelf)}
+                        onDelete={handleDelete}
+                    />
                 ))}
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Добавить новую полку</Modal.Title>
+                    <Modal.Title>{editingShelf ? 'Редактировать полку' : 'Добавить новую полку'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -69,7 +91,7 @@ const ShelfPage = () => {
                             <Form.Label>Имя полки</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Shelf_1"
+                                placeholder="Any name shelf"
                                 name="name"
                                 value={shelfForm.name}
                                 onChange={handleShelfChange}
@@ -81,7 +103,10 @@ const ShelfPage = () => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Описание</Form.Label>
-                            <Form.Control as="textarea" rows={3} 
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Any description"
                                 name="description"
                                 value={shelfForm.description}
                                 onChange={handleShelfChange}
