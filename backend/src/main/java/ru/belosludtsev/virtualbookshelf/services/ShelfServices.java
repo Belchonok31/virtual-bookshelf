@@ -37,17 +37,19 @@ public class ShelfServices {
     }
 
     @Transactional
-    public void save(long clientId, Shelf shelf) {
+    public Shelf save(long clientId, Shelf shelf) {
         // todo add check valid clientId
         Optional<User> userOptional = userRepositories.findById(clientId);
         userOptional.ifPresent(shelf::setUser);
-        shelfRepositories.save(shelf);
+        return shelfRepositories.save(shelf);
     }
 
     @Transactional
-    public void update(long id, Shelf shelfUpdate) {
+    public Shelf update(long id, long clientId, Shelf shelfUpdate) {
         shelfUpdate.setId(id);
-        shelfRepositories.save(shelfUpdate);
+        Optional<User> userOptional = userRepositories.findById(clientId);
+        userOptional.ifPresent(shelfUpdate::setUser);
+        return shelfRepositories.save(shelfUpdate);
     }
 
     @Transactional

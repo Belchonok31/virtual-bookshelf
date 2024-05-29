@@ -42,19 +42,19 @@ public class ShelfController {
     }
 
     @PostMapping("/shelf")
-    public ResponseEntity<String> createShelf(@RequestBody Shelf shelf) {
+    public Shelf createShelf(@RequestBody Shelf shelf) {
         User user = authenticatedUserService.getAuthenticatedUser();
-        shelfServices.save(user.getId(), shelf);
+        return shelfServices.save(user.getId(), shelf);
 //        return ResponseEntity.ok("Shelf created successfully");
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/shelf/{id}")
-    public ResponseEntity<String> updateShelf(@PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
+    public Shelf updateShelf(@PathVariable("id") long id, @RequestBody Shelf shelfUpdate) {
         if (shelfServices.findOne(id) != null) {
-            shelfServices.update(id, shelfUpdate);
-            return ResponseEntity.ok("Shelf updated successfully");
-        } else return ResponseEntity.notFound().build();
+            User user = authenticatedUserService.getAuthenticatedUser();
+            return shelfServices.update(id, user.getId(), shelfUpdate);
+        } else return null;
     }
 
     @DeleteMapping("/shelf/{id}")

@@ -18,7 +18,6 @@ public class BookOriginal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @NotNull
     private String name;
 
     private String authors;
