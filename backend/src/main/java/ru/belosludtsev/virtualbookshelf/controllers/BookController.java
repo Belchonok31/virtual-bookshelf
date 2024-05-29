@@ -30,7 +30,7 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
-    @GetMapping("/shelf/{shelfId}/book/{id}")
+    @GetMapping("/book/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable("id") long id) {
         Book book = bookServices.findOne(id);
         if (book != null) {
