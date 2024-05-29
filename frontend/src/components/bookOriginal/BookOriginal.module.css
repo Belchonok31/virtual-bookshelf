@@ -1,0 +1,67 @@
+.bookOriginalContainer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.bookOriginalImage {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.bookOriginalDetails {
+    flex: 1;
+}
+
+.bookOriginalName {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.bookOriginalAuthors {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: gray;
+    font-weight: bold;
+}
+
+.bookOriginalUrl {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.bookOriginalDate {
+    color: #888;
+    font-size: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actionButton, .addedButton, .deleteButton {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addedButton {
+    background-color: #35dc59;
+}
+
+.deleteButton {
+    background-color: #dc3545;
+}

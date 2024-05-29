@@ -24,7 +24,7 @@ public class BookOriginal {
 
     private String genre;
 
-    private LocalDate dateIssue;
+    private int dateIssue;
 
     private String description;
 }

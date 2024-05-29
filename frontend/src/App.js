@@ -7,6 +7,7 @@ import SignInPage from './pages/signIn/SignInPage';
 import MainPage from './pages/main/MainPage'
 import ShelfPage from './pages/shelfList/ShelfPage';
 import ShelfItemPage from './pages/shelfItem/ShelfItemPage';
+import BookOriginalPage from './pages/bookOriginalList/BookOriginalPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<MainPage/>} />
             <Route path='/shelf' element={<ShelfPage/>} />
             <Route path="/shelf/:id" component={ShelfItemPage} />
+            <Route path='/bookOriginal' element={<BookOriginalPage/>} />
           </Routes>
       </BrowserRouter>
     </Provider>

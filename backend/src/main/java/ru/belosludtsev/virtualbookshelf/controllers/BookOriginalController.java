@@ -35,20 +35,19 @@ public class BookOriginalController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createBookOriginal(@RequestBody BookOriginal bookOriginal) {
-        bookOriginalServices.save(bookOriginal);
+    public BookOriginal createBookOriginal(@RequestBody BookOriginal bookOriginal) {
+        BookOriginal bookOriginal1 = bookOriginalServices.save(bookOriginal);
         statisticsServices.save(bookOriginal);
+        return bookOriginal1;
 //        return ResponseEntity.ok("BookOriginal created successfully");
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBook(@PathVariable("id") long id,
+    public BookOriginal updateBook(@PathVariable("id") long id,
                                              @RequestBody BookOriginal bookOriginalUpdate) {
         if (bookOriginalServices.findOne(id) != null) {
-            bookOriginalServices.update(id, bookOriginalUpdate);
-            return ResponseEntity.ok("BookOriginal updated successfully");
-        } else return ResponseEntity.notFound().build();
+            return bookOriginalServices.update(id, bookOriginalUpdate);
+        } else return null;
     }
 
     @DeleteMapping("/{id}")

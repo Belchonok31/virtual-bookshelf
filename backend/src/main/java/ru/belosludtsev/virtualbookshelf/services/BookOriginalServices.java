@@ -29,14 +29,14 @@ public class BookOriginalServices {
     }
 
     @Transactional
-    public void save(BookOriginal bookOriginal) {
-        bookOriginalRepositories.save(bookOriginal);
+    public BookOriginal save(BookOriginal bookOriginal) {
+        return bookOriginalRepositories.save(bookOriginal);
     }
 
     @Transactional
-    public void update(long id, BookOriginal bookOriginalUpdate) {
+    public BookOriginal update(long id, BookOriginal bookOriginalUpdate) {
         bookOriginalUpdate.setId(id);
-        bookOriginalRepositories.save(bookOriginalUpdate);
+        return bookOriginalRepositories.save(bookOriginalUpdate);
     }
 
     @Transactional
