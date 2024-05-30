@@ -19,7 +19,7 @@ function App() {
             <Route path="/signIn" element={<SignInPage/>} />
             <Route path='/' element={<MainPage/>} />
             <Route path='/shelf' element={<ShelfPage/>} />
-            <Route path="/shelf/:id" component={ShelfItemPage} />
+            <Route path="/shelf/:id" element={ShelfItemPage} />
             <Route path='/bookOriginal' element={<BookOriginalPage/>} />
           </Routes>
       </BrowserRouter>

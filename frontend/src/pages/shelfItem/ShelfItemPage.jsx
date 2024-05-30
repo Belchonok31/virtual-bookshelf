@@ -4,6 +4,9 @@ import Book from '../../components/book/Book';
 import styles from './ShelfItemPage.module.css';
 
 const ShelfItemPage = ({ match }) => {
+    return (
+        <div>hello world</div>
+    )
 }
 
 export default ShelfItemPage;

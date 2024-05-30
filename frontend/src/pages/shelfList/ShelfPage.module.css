@@ -1,3 +1,8 @@
+.main {
+    background-color: rgb(50, 57, 100);
+    min-height: 100vh;
+}
+
 .container {
     padding: 20px;
     margin: 0 20vw;
@@ -19,10 +24,12 @@
     margin-right: auto;
 }
 
+
 h2 {
     margin: 0 20px;
     font-size: 24px;
     font-weight: normal;
+    color: #fff;
 }
 
 .searchInput {
