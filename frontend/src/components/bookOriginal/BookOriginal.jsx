@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './BookOriginal.module.css';
 
 const BookOriginal = ({ bookOriginal, onEdit, onDelete }) => {
-    const bookOriginalUrl = `/bookOriginal/${bookOriginal.id}`;
 
     return (
         <div className={styles.bookOriginalContainer}>
@@ -10,7 +10,7 @@ const BookOriginal = ({ bookOriginal, onEdit, onDelete }) => {
             <div className={styles.bookOriginalDetails}>
                 <p className={styles.bookOriginalName}>{bookOriginal.name}</p>
                 <p className={styles.bookOriginalAuthors}>{bookOriginal.authors}</p>
-                <a href={bookOriginalUrl} className={styles.bookOriginalUrl}>Подробнее...</a>
+                <Link to={`${bookOriginal.id}`} className={styles.bookOriginalUrl}>Подробнее...</Link>
             </div>
             <div className={styles.actions}>
                 <button className={styles.addedButton} >Добавить</button>

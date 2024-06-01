@@ -51,24 +51,27 @@ public class ReviewController {
     }
 
     @PostMapping("/bookOriginal/{bookOriginalId}/review")
-    public ResponseEntity<String> save(@PathVariable("bookOriginalId") long bookOriginalId,
+    public Review save(@PathVariable("bookOriginalId") long bookOriginalId,
                                        @RequestBody Review review) {
         User user = authenticatedUserService.getAuthenticatedUser();
-        reviewServices.save(user.getId(), bookOriginalId, review);
-        statisticsServices.updateRating(review.getRating(), bookOriginalId);
+        Review createReview = reviewServices.save(user.getId(), bookOriginalId, review);
+        if (createReview != null) {
+            statisticsServices.updateRating(review.getRating(), bookOriginalId);
+            return createReview;
+        }
+        return null;
         //        return ResponseEntity.ok("Review created successfully");
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/bookOriginal/{bookOriginalId}/review/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") long id,
+    public Review update(@PathVariable("id") long id,
                                          @PathVariable("bookOriginalId") long bookOriginalId,
                                          @RequestBody Review reviewUpdate) {
         if (reviewServices.findOne(id) != null) {
-            reviewServices.update(id, reviewUpdate);
+            Review updateReview = reviewServices.update(id, reviewUpdate);
             statisticsServices.updateRating(reviewUpdate.getRating(), bookOriginalId);
-            return ResponseEntity.ok("Review updated successfully");
-        } else return ResponseEntity.notFound().build();
+            return updateReview;
+        } else return null;
     }
 
     @DeleteMapping("/review/{id}")

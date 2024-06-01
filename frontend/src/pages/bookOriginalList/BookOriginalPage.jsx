@@ -15,7 +15,7 @@ import Header from '../../components/header/Header'
 const BookOriginalPage = () => {
 
     const dispatch = useDispatch();
-    const cookie = new Cookies()
+    const cookie = new Cookies();
 
     useEffect(() => {
         const token = cookie.get('token');

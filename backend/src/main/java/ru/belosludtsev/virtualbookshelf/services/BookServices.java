@@ -43,7 +43,7 @@ public class BookServices {
     }
 
     @Transactional
-    public void save(long shelfId, long bookOriginalId, Book book) {
+    public Book save(long shelfId, long bookOriginalId, Book book) {
 
         // todo add check valid shelfId
         Optional<Shelf> optionalShelf = shelfRepositories.findById(shelfId);
@@ -53,13 +53,13 @@ public class BookServices {
         Optional<BookOriginal> optionalBookOriginal = bookOriginalRepositories.findById(bookOriginalId);
         optionalBookOriginal.ifPresent(book::setBookOriginal);
 
-        bookRepositories.save(book);
+        return bookRepositories.save(book);
     }
 
     @Transactional
-    public void update(long id, Book bookUpdate) {
+    public Book update(long id, Book bookUpdate) {
         bookUpdate.setId(id);
-        bookRepositories.save(bookUpdate);
+        return bookRepositories.save(bookUpdate);
     }
 
     @Transactional

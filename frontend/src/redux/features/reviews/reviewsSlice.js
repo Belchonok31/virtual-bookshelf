@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const bookSlice = createSlice({
-    name: 'book',
+const reviewSlice = createSlice({
+    name: 'review',
     initialState: {
         loading: false,
         items: [],
@@ -9,36 +9,36 @@ const bookSlice = createSlice({
         error: null
     },
     reducers: {
-        fetchBookLoading: (state) => {
+        fetchReviewsLoading: (state) => {
             state.loading = true
             state.error = null
         },
-        fetchBookAllSuccess: (state, action) => {
+        fetchReviewsAllSuccess: (state, action) => {
             state.loading = false
             state.items = action.payload
         },
-        fetchBookMeSuccess: (state, action) => {
+        fetchReviewsMeSuccess: (state, action) => {
             state.loading = false
             state.items = action.payload
         },
-        fetchBookOneSuccess: (state, action) => {
+        fetchReviewsOneSuccess: (state, action) => {
             state.loading = false
             state.selectedItem = action.payload
         },
-        createBookSuccess: (state, action) => {
+        createReviewsSuccess: (state, action) => {
             state.loading = false
             state.items = [action.payload, ...state.items]
         },
-        updateBookSuccess: (state, action) => {
+        updateReviewsSuccess: (state, action) => {
             state.loading = false
             state.items = state.items
                 .map(item => item.id === action.payload.id ? action.payload : item)
         },
-        removeBookSuccess: (state, action) => {
+        removeReviewsSuccess: (state, action) => {
             state.loading = false
             state.items = state.items.filter(item => item.id !== action.payload)
         },
-        fetchBookError: (state, action) => {
+        fetchReviewsError: (state, action) => {
             state.loading = false
             state.error = action.payload
         }
@@ -46,14 +46,14 @@ const bookSlice = createSlice({
 })
 
 export const {
-    fetchBookLoading,
-    fetchBookAllSuccess,
-    fetchBookMeSuccess,
-    fetchBookOneSuccess,
-    createBookSuccess,
-    updateBookSuccess,
-    removeBookSuccess,
-    fetchBookError
-} = bookSlice.actions
+    fetchReviewsLoading,
+    fetchReviewsAllSuccess,
+    fetchReviewsMeSuccess,
+    fetchReviewsOneSuccess,
+    createReviewsSuccess,
+    updateReviewsSuccess,
+    removeReviewsSuccess,
+    fetchReviewsError
+} = reviewSlice.actions
 
-export default bookSlice.reducer
+export default reviewSlice.reducer

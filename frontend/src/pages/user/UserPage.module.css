@@ -1,0 +1,61 @@
+.userPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.userInfo {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.userAvatar {
+    border-radius: 50%;
+    margin-right: 20px;
+    height: 200px;
+    width: 200px;
+}
+
+.userDetails .item {
+    margin: 5px 0;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.actionButton {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.userReviews {
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+}
+
+.userReviews ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.userReviews li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.h2 {
+    margin-bottom: 10px;
+    color: black;
+}

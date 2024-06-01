@@ -1,0 +1,85 @@
+.main {
+  font-size: 18px;
+}
+
+.infoPlusDescription {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 50vw;
+}
+
+.bookPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.bookInfo {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.bookImage {
+  max-width: 300px;
+  margin-right: 20px;
+}
+
+.bookDetails {
+  flex-grow: 1;
+}
+
+.bookName {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.bookDescription {
+  margin: 20px 0;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.rating .item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.rating .item img{
+  height: 30px;
+  width: 30px;
+}
+
+
+
+.bookReviews {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+}
+
+.bookReviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.bookReviews li {
+  background-color: #f9f9f9;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}

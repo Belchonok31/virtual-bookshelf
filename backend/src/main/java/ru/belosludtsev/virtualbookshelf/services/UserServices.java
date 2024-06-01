@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.MeUserDetails;
 import ru.belosludtsev.virtualbookshelf.entities.User;
@@ -35,9 +36,13 @@ public class UserServices implements UserDetailsService {
     }
 
     @Transactional
-    public void update(long id, User userUpdate){
+    public User update(long id, User userUpdate){
         userUpdate.setId(id);
-        userRepositories.save(userUpdate);
+        Optional<User> optionalUser = userRepositories.findById(id);
+        optionalUser.ifPresent(user -> userUpdate.setEmail(user.getEmail()));
+        optionalUser.ifPresent(user -> userUpdate.setPassword(user.getPassword()));
+        optionalUser.ifPresent(user -> userUpdate.setRole(user.getRole()));
+        return userRepositories.save(userUpdate);
     }
 
     @Transactional

@@ -2,9 +2,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
+    border-bottom: 1px solid #020021;
     margin-bottom: 10px;
 }
 

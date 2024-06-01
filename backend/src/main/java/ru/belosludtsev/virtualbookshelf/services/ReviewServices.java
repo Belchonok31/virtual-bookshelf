@@ -47,7 +47,16 @@ public class ReviewServices {
     }
 
     @Transactional
-    public void save(long clientId, long bookOriginalId, Review review){
+    public Review save(long clientId, long bookOriginalId, Review review){
+
+        Optional<Review> reviewOptional = reviewRepositories.findAll().stream()
+                .filter(review1 -> review1.getUser().getId() == clientId
+                        && review1.getBookOriginal().getId() == bookOriginalId)
+                .findFirst();
+        if (reviewOptional.isPresent()) {
+            return null;
+        }
+
 
         Optional<User> optionalUser = userRepositories.findById(clientId);
         optionalUser.ifPresent(review::setUser);
@@ -55,13 +64,13 @@ public class ReviewServices {
         Optional<BookOriginal> optionalBookOriginal =bookOriginalRepositories.findById(bookOriginalId);
         optionalBookOriginal.ifPresent(review::setBookOriginal);
 
-        reviewRepositories.save(review);
+        return reviewRepositories.save(review);
     }
 
     @Transactional
-    public void update(long id, Review reviewUpdate){
+    public Review update(long id, Review reviewUpdate){
         reviewUpdate.setId(id);
-        reviewRepositories.save(reviewUpdate);
+        return reviewRepositories.save(reviewUpdate);
     }
 
     @Transactional
