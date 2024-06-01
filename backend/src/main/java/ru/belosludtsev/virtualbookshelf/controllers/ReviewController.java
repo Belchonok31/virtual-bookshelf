@@ -77,6 +77,7 @@ public class ReviewController {
     @DeleteMapping("/review/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
         if (reviewServices.findOne(id) != null) {
+            statisticsServices.deleteReview(id);
             reviewServices.delete(id);
             return ResponseEntity.ok("Review deleted successfully");
         } else return ResponseEntity.notFound().build();

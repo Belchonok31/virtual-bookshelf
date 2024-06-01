@@ -5,10 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.belosludtsev.virtualbookshelf.entities.Book;
 import ru.belosludtsev.virtualbookshelf.entities.BookOriginal;
+import ru.belosludtsev.virtualbookshelf.entities.Review;
 import ru.belosludtsev.virtualbookshelf.entities.Statistics;
+import ru.belosludtsev.virtualbookshelf.repositories.BookOriginalRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
+import ru.belosludtsev.virtualbookshelf.repositories.ReviewRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.StatisticsRepositories;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +22,7 @@ public class StatisticsServices {
 
     private final StatisticsRepositories statisticsRepositories;
 
-    private final BookRepositories bookRepositories;
+    private final ReviewRepositories reviewRepositories;
 
     public List<Statistics> findAll() {
         return statisticsRepositories.findAll();
@@ -67,8 +71,31 @@ public class StatisticsServices {
         }
     }
 
+    @Transactional
+    public void deleteReview(long reviewId) {
+
+        Optional<Review> optionalReview = reviewRepositories.findById(reviewId);
+        if (optionalReview.isEmpty()) {
+            return;
+        }
+        Optional<Statistics> optionalStatistics = statisticsRepositories.findAll().stream()
+                .filter(statistics -> statistics.getBookOriginal().getId() == optionalReview.get().getBookOriginalId())
+                .findFirst();
+        if (optionalStatistics.isPresent()) {
+            var statistics = optionalStatistics.get();
+            statistics.setNumberOfReviews(statistics.getNumberOfReviews() - 1);
+            statistics.setRating(setNewRatingForDelete(statistics.getRating(), optionalReview.get().getRating(),
+                    statistics.getNumberOfReviews()));
+        }
+    }
+
     private float setNewRating(float oldRating, float ratingOfReview, int numberOfReviews) {
-        return (oldRating + ratingOfReview) / numberOfReviews;
+        return ((oldRating * (numberOfReviews - 1)) + ratingOfReview) / numberOfReviews;
+    }
+
+    private float setNewRatingForDelete(float oldRating, float ratingOfReview, int numberOfReviews) {
+        if (oldRating - ratingOfReview == 0) return 0;
+        return (((oldRating * (numberOfReviews + 1)) - ratingOfReview) / numberOfReviews);
     }
 
     @Transactional

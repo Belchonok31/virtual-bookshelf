@@ -11,6 +11,7 @@ import ShelfPage from './pages/shelfList/ShelfPage';
 import ShelfItemPage from './pages/shelfItem/ShelfItemPage';
 import BookOriginalPage from './pages/bookOriginalList/BookOriginalPage';
 import BookOriginalItem from './pages/bookOriginalItem/BookOriginalItem';
+import BookPage from './pages/book/BookPage';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/shelf/:id" element={<ShelfItemPage/>} />
             <Route path='/bookOriginal' element={<BookOriginalPage/>} />
             <Route path='/bookOriginal/:id' element={<BookOriginalItem/>} />
+            <Route path='/book/:id' element={<BookPage/>} />
           </Routes>
       </BrowserRouter>
     </Provider>

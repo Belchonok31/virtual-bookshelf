@@ -12,6 +12,7 @@ import ru.belosludtsev.virtualbookshelf.repositories.BookRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.ReviewRepositories;
 import ru.belosludtsev.virtualbookshelf.repositories.UserRepositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,6 +64,8 @@ public class ReviewServices {
 
         Optional<BookOriginal> optionalBookOriginal =bookOriginalRepositories.findById(bookOriginalId);
         optionalBookOriginal.ifPresent(review::setBookOriginal);
+
+        review.setDateOfWriting(LocalDateTime.now());
 
         return reviewRepositories.save(review);
     }

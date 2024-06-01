@@ -9,36 +9,37 @@
   max-width: 50vw;
 }
 
-.bookPage {
+.BookPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
 }
 
-.bookInfo {
+.BookInfo {
   display: flex;
   width: 100%;
   max-width: 800px;
   margin-bottom: 20px;
 }
 
-.bookImage {
+.BookImage {
   max-width: 300px;
   margin-right: 20px;
 }
 
-.bookDetails {
+.BookDetails {
   flex-grow: 1;
 }
 
-.bookName {
+.BookName {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.bookDescription {
-  margin: 20px 0;
+.BookDescription {
+  align-self: flex-start;
+  margin-bottom: 10px;
 }
 
 .rating {
@@ -60,20 +61,36 @@
   width: 30px;
 }
 
+.actions {
+  display: flex;
+  gap: 100px;
+}
 
+.actionButton, .deleteButton {
+  background-color: #35dc59;
+  color: white;
+  padding: 5px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-.bookReviews {
+.deleteButton {
+  background-color: #00c8ff;
+}
+
+.BookReviews {
   width: 100%;
   max-width: 800px;
   text-align: left;
 }
 
-.bookReviews ul {
+.BookReviews ul {
   list-style-type: none;
   padding: 0;
 }
 
-.bookReviews li {
+.BookReviews li {
   background-color: #f9f9f9;
   margin: 5px 0;
   padding: 10px;

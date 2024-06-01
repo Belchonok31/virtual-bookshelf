@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import {
     getBookOriginalsAll,
@@ -7,28 +8,40 @@ import {
     updateBookOriginal,
     removeBookOriginal
 } from '../../redux/features/bookOriginals/bookOriginalActions'
+import {createBook} from '../../redux/features/books/bookAction'
 import BookOriginal from '../../components/bookOriginal/BookOriginal';
 import styles from './BookOriginalPage.module.css';
 import Cookies from 'universal-cookie';
 import Header from '../../components/header/Header'
+import {getShelfs} from '../../redux/features/shelfs/shelfActions'
 
 const BookOriginalPage = () => {
 
     const dispatch = useDispatch();
     const cookie = new Cookies();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = cookie.get('token');
         if (!token) {
-            window.location.href = '/signIn';
+            navigate("/signIn");
         }
         dispatch(getBookOriginalsAll())
+        dispatch(getShelfs())
     }, [dispatch]);
 
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+
     const [editingBookOriginal, setEditingBookOriginal] = useState(null);
     const BookOriginals = useSelector((state) => state.bookOriginal.items);
+
+    const shelfs = useSelector((state) => state.shelf.items);
+    const placeholderText = shelfs.map(shelf => shelf.id).join(', ');
+
+
+    const [selectedBook, setSeletedBook] = useState(null);
 
 
     const [bookOriginalForm, setBookOriginalForm] = useState({
@@ -39,8 +52,17 @@ const BookOriginalPage = () => {
         description: '',
     });
 
+    const [bookForm, setBookForm] = useState({
+        name: '',
+        label: '',
+        shelf: '',
+    });
+
+    const handleBookChange = (e) => {
+        setBookForm({ ...bookForm, [e.target.name]: e.target.value });
+    };
     const handleBookOriginalChange = (e) => {
-        setBookOriginalForm({ ...bookOriginalForm, [e.target.name]: e.target.value });
+        setBookForm({ ...bookForm, [e.target.name]: e.target.value });
     };
 
     const handleShow = (BookOriginal = null) => {
@@ -55,6 +77,15 @@ const BookOriginalPage = () => {
             setBookOriginalForm({ name: '', authors: '', genre: '', dateIssue: '', description: '' });
         }
         setShow(true);
+    };
+
+    const handleShow2 = (bookOriginal) => {
+        setSeletedBook(bookOriginal);
+        setShow2(true);
+    };
+
+    const handleClose2 = () => {
+        setShow2(false);
     };
 
     const handleClose = () => {
@@ -76,6 +107,13 @@ const BookOriginalPage = () => {
         dispatch(removeBookOriginal(id));
     };
 
+    const handleAddBook = (e) => {
+        e.preventDefault();
+        dispatch(createBook(selectedBook.id, bookForm, bookForm.shelf))
+        setShow2(false);
+        setBookForm({ name: '', label: '', shelf: ''});
+    };
+
     return (
         <div className={styles.main}>
             <Header />
@@ -92,6 +130,7 @@ const BookOriginalPage = () => {
                             bookOriginal={bookOriginal}
                             onEdit={() => handleShow(bookOriginal)}
                             onDelete={handleDelete}
+                            onAdd={() => handleShow2(bookOriginal)}
                         />
                     ))}
                 </div>
@@ -165,6 +204,57 @@ const BookOriginalPage = () => {
                             Закрыть
                         </Button>
                         <Button variant="primary" onClick={handleAdd}>
+                            Сохранить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={show2} onHide={handleClose2}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Добавить новую книгу</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Имя книги</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder='Any name book'
+                                    name="name"
+                                    value={bookForm.name}
+                                    onChange={handleBookChange}
+                                    required
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Надпись</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Any label book"
+                                    name="label"
+                                    value={bookForm.label}
+                                    onChange={handleBookChange}
+                                    required
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Полка</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    placeholder={placeholderText}
+                                    name="shelf"
+                                    value={bookForm.shelf}
+                                    onChange={handleBookChange}
+                                    required
+                                />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose2}>
+                            Закрыть
+                        </Button>
+                        <Button variant="primary" onClick={handleAddBook}>
                             Сохранить
                         </Button>
                     </Modal.Footer>

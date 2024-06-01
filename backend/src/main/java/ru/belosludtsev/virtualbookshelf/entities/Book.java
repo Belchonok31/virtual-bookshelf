@@ -25,7 +25,7 @@ public class Book {
     private String label;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_original_id")
     @JsonIgnore
     private BookOriginal bookOriginal;
 

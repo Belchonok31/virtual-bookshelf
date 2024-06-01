@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { getShelfs, createShelf, updateShelf, removeShelf } from '../../redux/features/shelfs/shelfActions'
 import Shelf from '../../components/shelf/Shelf';
@@ -10,12 +11,13 @@ import Header from '../../components/header/Header';
 const ShelfPage = () => {
 
     const dispatch = useDispatch();
-    const cookie = new Cookies()
+    const cookie = new Cookies();
+    const navigate = new useNavigate();
 
     useEffect(() => {
         const token = cookie.get('token');
         if (!token) {
-            window.location.href = '/signIn';
+            navigate('/signIn')
         }
         dispatch(getShelfs())
     }, [dispatch]);

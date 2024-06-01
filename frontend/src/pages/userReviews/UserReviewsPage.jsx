@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserFromContext } from '../../redux/features/users/userAction';
-import { getReviews } from '../../redux/features/reviews/reviewsActions'
+import { getReviews, removeReviews } from '../../redux/features/reviews/reviewsActions'
 import styles from './UserReviewsPage.module.css';
 import Cookies from 'universal-cookie';
 import Header from '../../components/header/Header';
@@ -26,6 +26,10 @@ const UserReviewsPage = () => {
 
     const reviews = useSelector((state) => state.review.items);
 
+    const handleDelete = (id) => {
+        dispatch(removeReviews(id));
+    };
+
 
     return (
         <div>
@@ -44,11 +48,8 @@ const UserReviewsPage = () => {
                                         {reviews.map((review, index) => (
                                             <ReviewUser
                                                 key={index}
-                                                author={user.email}
-                                                dateOfWriting={review.dateOfWriting}
-                                                rating={review.rating}
-                                                bookId={review.book_original_id}
-                                                text={review.text}
+                                                review={review}
+                                                onDelete={handleDelete}
                                             />
                                         ))}
                                     </ul>

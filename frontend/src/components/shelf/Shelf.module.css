@@ -22,7 +22,7 @@
     font-weight: bold;
 }
 
-.shelfUrl {
+.shelfDetails a {
     display: block;
     color: #007bff;
     text-decoration: none;

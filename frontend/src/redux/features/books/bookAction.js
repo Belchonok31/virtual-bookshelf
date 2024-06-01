@@ -8,10 +8,16 @@ import { fetchBookLoading,
     removeBookSuccess,
     fetchBookError } from "./bookSlice"
 
-export const createBook = (bookOriginalId, BookData) => async (dispatch) => {
+export const createBook = (bookOriginalId, BookData, shelfId) => async (dispatch) => {
     dispatch(fetchBookLoading())
     try {
-        const { data } = await axiosInstance.post(`/bookOriginal/${bookOriginalId}`, BookData);
+        const { data } = await axiosInstance.post(`/bookOriginal/${bookOriginalId}`, BookData,
+        {
+            params: {
+                shelfId: shelfId
+            }
+        }
+        );
         dispatch(createBookSuccess(data))
     } catch (error) {
         dispatch(fetchBookError(error.message))
