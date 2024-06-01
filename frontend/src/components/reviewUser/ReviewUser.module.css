@@ -1,0 +1,48 @@
+.reviewItem {
+  background-color: #f9f9f9;
+  margin: 10px 0;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.reviewAuthor {
+  font-weight: bold;
+}
+
+.reviewDate {
+  color: gray;
+}
+
+.reviewRating {
+  color: gold;
+  margin-bottom: 10px;
+}
+
+.book {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+
+.book img {
+  width: 30px;
+  height: 30px;
+}
+
+.reviewText {
+  margin-bottom: 10px;
+}
+
+.reviewFooter {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

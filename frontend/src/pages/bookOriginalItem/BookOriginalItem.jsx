@@ -53,15 +53,15 @@ const BookOriginalItem = () => {
                                     <div className={styles.rating}>
                                         <div className={styles.item}>
                                             <img src="https://www.clipartmax.com/png/full/73-730227_gold-star-star-clipart.png" alt="" />
-                                            <span>{statistics.rating ?? 0}</span>
+                                            <span>{statistics?.rating ?? 0}</span>
                                         </div>
                                         <div className={styles.item}>
                                             <img src="https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/magnifyingglass-1024.png" alt="" />
-                                            <span>{statistics.numberOfReviews ?? 0}</span>
+                                            <span>{statistics?.numberOfReviews ?? 0}</span>
                                         </div>
                                         <div className={styles.item}>
                                             <img src="https://www.pngmart.com/files/21/Green-Add-Button-PNG-Isolated-HD.png" alt="" />
-                                            <span>{statistics.additions ?? 0}</span>
+                                            <span>{statistics?.additions ?? 0}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@ const BookOriginalItem = () => {
                                         {reviews.map((review, index) => (
                                             <Review
                                                 key={index}
-                                                author={users.find((user) => user.id === review.user_id).email}
+                                                author={users.find((user) => user.id === review.user_id)?.email}
                                                 dateOfWriting={review.dateOfWriting}
                                                 rating={review.rating}
                                                 text={review.text}

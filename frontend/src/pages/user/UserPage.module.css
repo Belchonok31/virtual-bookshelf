@@ -37,25 +37,14 @@
     cursor: pointer;
 }
 
-.userReviews {
-    width: 100%;
-    max-width: 600px;
-    text-align: left;
-}
-
-.userReviews ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.userReviews li {
-    background-color: #f9f9f9;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.h2 {
-    margin-bottom: 10px;
-    color: black;
+.doing a {
+    text-decoration: none;
+    font-size: 30px;
+    background-color: #03791b;
+    color: white;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
 }

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { getUserFromContext, updateUser } from '../../redux/features/users/userAction';
+import { getReviews } from '../../redux/features/reviews/reviewsActions'
 import styles from './UserPage.module.css';
 import Cookies from 'universal-cookie';
 import Header from '../../components/header/Header';
+import Review from '../../components/review/Review';
 
 const UserPage = () => {
 
@@ -16,7 +19,8 @@ const UserPage = () => {
         if (!token) {
             window.location.href = '/signIn';
         }
-        dispatch(getUserFromContext())
+        dispatch(getUserFromContext());
+        dispatch(getReviews());
     }, [dispatch]);
 
 
@@ -66,13 +70,10 @@ const UserPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.userReviews}>
-                            <h2 className={styles.h2}>Отзывы</h2>
-                            {/* <ul>
-                            {user.reviews.map((review, index) => (
-                                <li key={index}>{review}</li>
-                            ))}
-                        </ul> */}
+                        <div className={styles.doing}>
+                            <Link to='/user/reviews'>
+                                <span className={styles.label}>Мои отзывы</span>
+                            </Link>
                         </div>
                     </>
                 )}
