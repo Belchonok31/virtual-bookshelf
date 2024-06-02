@@ -26,8 +26,6 @@ public class BookServices {
 
     private final BookImageServices bookImageServices;
 
-    private final ReviewServices reviewServices;
-
     public List<Book> findAll() {
         return bookRepositories.findAll();
     }
