@@ -62,7 +62,7 @@ const BookOriginalPage = () => {
         setBookForm({ ...bookForm, [e.target.name]: e.target.value });
     };
     const handleBookOriginalChange = (e) => {
-        setBookForm({ ...bookForm, [e.target.name]: e.target.value });
+        setBookOriginalForm({ ...bookForm, [e.target.name]: e.target.value });
     };
 
     const handleShow = (BookOriginal = null) => {
